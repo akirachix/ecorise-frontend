@@ -1,0 +1,181 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.teaser-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.teaser-image-side {
+  flex: 1;
+  height: 100vh;
+}
+
+.teaser-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.teaser-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  padding: 2rem;
+}
+
+.teaser-logo {
+  max-width: 80%;
+  width: 400px;
+  margin-bottom: 1.5rem; 
+}
+
+.teaser-text {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 6.5rem; 
+}
+
+.teaser-heading {
+  color: maroon;
+  font-size: 2.5rem;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.teaser-subheading {
+  color: #333;
+  font-size: 1.25rem;
+  text-align: center;
+  line-height: 1.2;
+  max-width: 80%;
+}
+
+.teaser-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.teaser-btn {
+  width: 200px;
+  padding: 1rem;
+  font-size: 1.125rem;
+  border-radius: 8px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.teaser-btn-login {
+  background-color: maroon;
+  color: white;
+}
+
+.teaser-btn-login:hover {
+  background-color: orange;
+}
+
+.teaser-btn-create {
+  background-color: maroon;
+  color: white;
+  border: 2px solid orange;
+}
+
+.teaser-btn-create:hover {
+  background-color: orange;
+  color: maroon;
+}
+
+
+@media (min-width: 1024px) {
+  .teaser-container {
+    flex-direction: row;
+  }
+
+  .teaser-image-side {
+    flex: 1.2;
+  }
+
+  .teaser-content {
+    flex: 0.8;
+    padding: 3rem;
+  }
+
+  .teaser-logo {
+    width: 500px;
+    margin-bottom: 2rem; 
+  }
+
+  .teaser-text {
+    margin-bottom: 2rem; 
+  }
+
+  .teaser-heading {
+    font-size: 3rem;
+  }
+
+  .teaser-subheading {
+    font-size: 1.5rem;
+    max-width: 70%;
+  }
+
+  .teaser-btn {
+    width: 250px;
+    font-size: 1.25rem;
+  }
+}
+
+
+@media (max-width: 1023px) {
+  .teaser-container {
+    flex-direction: column;
+  }
+
+  .teaser-image-side {
+    height: 50vh;
+  }
+
+  .teaser-content {
+    padding: 1.5rem;
+  }
+
+  .teaser-logo {
+    max-width: 90%;
+    width: 300px;
+    margin-bottom: 1rem; 
+  }
+
+  .teaser-text {
+    gap: 0.25rem;
+    margin-bottom: 1rem; 
+  }
+
+  .teaser-heading {
+    font-size: 2rem;
+  }
+
+  .teaser-subheading {
+    font-size: 1rem;
+    max-width: 90%;
+  }
+
+  .teaser-btn {
+    width: 180px;
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+}

@@ -1,21 +1,16 @@
-// import logo from './logo.svg';
-import './App.css';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// src/App.js
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-
-import Navigation from "./pages/shared-folder/Navigation/Sidebar"
-
-function App() {
+import Teaser from './TeaserPage';
+const App = () => {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-       
-        <Route path="/navigation" element={<Navigation />} />
-        
-       
+        <Route path="/teaser" element={<Teaser />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
