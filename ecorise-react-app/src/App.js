@@ -10,7 +10,7 @@ function App() {
     <Router>
       <Routes>
        
-        <Route path="/navigation" element={<Navigation />} />
+        <Route path="/sidebar" element={<Navigation />} />
         
        
       </Routes>
