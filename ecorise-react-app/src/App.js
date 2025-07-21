@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
-import Navigation from "./pages/shared-folder/Navigation/Sidebar"
+import Sidebar from "./shared-componenet/SideBar"
 
 function App() {
   return (
