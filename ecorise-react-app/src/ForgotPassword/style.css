@@ -1,0 +1,92 @@
+.container-forgot-password {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background: #fff;
+  min-width: 600px;
+  justify-content: center;
+}
+
+.img-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.form-section {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 60px;
+  box-sizing: border-box;
+}
+
+.form-section h2 {
+  color: #942222;
+  font-size: 33px;
+  font-weight: 700;
+  margin-bottom: 35px;
+}
+
+.form-section p {
+  color: #222;
+  font-size: 19px;
+  margin-bottom: 20px;
+  margin-top: 0;
+  text-align: center;
+  max-width: 450px;
+}
+
+.form-section input[type="text"],
+.form-section input[type="email"],
+.form-section input[type="tel"] {
+  width: 800px;
+  font-size: 15px;
+  border: 1.5px solid #942222; 
+  border-radius: 3px;
+  height: 0.9cm;
+  box-sizing: border-box;
+  padding: 0 10px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-section input[type="text"]::placeholder,
+.form-section input[type="email"]::placeholder,
+.form-section input[type="tel"]::placeholder {
+  font-size: 15px;
+  color: #888; 
+  opacity: 1;
+  transition: none;
+}
+
+
+.container-forgot-password input[type="text"]:focus,
+.container-forgot-password input[type="email"]:focus,
+.container-forgot-password input[type="tel"]:focus {
+  outline: none;
+  border-color: #942222; 
+  box-shadow: none;
+}
+
+.form-section button[type="submit"] {
+  background: #942222;
+  color: #fff;
+  border: none;
+  width: 800px;
+  font-size: 17px;
+  padding: 11px 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.back-login {
+  display: inline-block;
+  margin-top: 25px;
+  color: #DA6304;
+  font-size: 19px;
+  text-decoration: none;
+  transition: text-decoration 0.2s;
+}
