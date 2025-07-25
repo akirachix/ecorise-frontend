@@ -3,16 +3,17 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
-import Navigation from "./pages/shared-folder/Navigation/Sidebar"
+import PaymentPage from './Payment'
 
 function App() {
   return (
     <Router>
       <Routes>
        
-        <Route path="/sidebar" element={<Navigation />} />
         
-       
+     
+             
+          <Route path="/payment" element={<PaymentPage />} />
       </Routes>
     </Router>
   );
