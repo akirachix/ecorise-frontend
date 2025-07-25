@@ -1,20 +1,31 @@
-// import logo from './logo.svg';
+
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useState } from 'react';
 
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Sidebar from './shared-component/SideBar';
+import PaymentForm from './Payment';
 
-import PaymentPage from './Payment'
 
 function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   return (
     <Router>
-      <Routes>
-       
-        
-     
-             
-          <Route path="/payment" element={<PaymentPage />} />
-      </Routes>
+      <div style={{ display: 'flex' }}>
+        <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+
+        <div style={{ flex: 1, padding: '20px' }}>
+          <Routes>
+            <Route path="/payment" element={<PaymentForm />} />
+            {}
+          </Routes>
+        </div>
+      </div>
     </Router>
   );
 }

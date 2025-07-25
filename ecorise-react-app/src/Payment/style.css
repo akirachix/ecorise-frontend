@@ -10,13 +10,15 @@
   padding: 20px;
   box-sizing: border-box;
 }
-
+body{
+  background-color: azure;
+}
 .payment-form {
  
   background: white;
-  padding: 30px 40px;
-  border: 1px solid black;
-  border-radius: 8px;
+  padding: 30px 60px;
+  border: 1px solid maroon;
+  border-radius: 95px;
   max-width: 420px;
   width: 100%;
   display: flex;
@@ -71,5 +73,5 @@
   resize: vertical; }
 
 .payment-label textarea {
-  height: 80px; 
+  height: 90px; 
 }
