@@ -1,8 +1,13 @@
-// src/utils/paymentApi.js
-
 export const stkPush = async ({ phoneNumber, amount, accountReference, transactionDesc }) => {
   try {
-    const response = await fetch('https://ecorise-7761ef090ee3.herokuapp.com/api/daraja/stk-push/', {
+    const url = process.env.REACT_APP_STK_PUSH_URL;
+    console.log('STK Push URL:', url); 
+
+    if (!url) {
+      throw new Error('API URL is undefined. Check your environment variable.');
+    }
+
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -15,13 +20,27 @@ export const stkPush = async ({ phoneNumber, amount, accountReference, transacti
       })
     });
 
+    const contentType = response.headers.get('content-type') || '';
+
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData?.message || 'Payment initiation failed');
+      if (contentType.includes('application/json')) {
+        const errorData = await response.json();
+        throw new Error(errorData?.message || 'Payment initiation failed');
+      } else {
+        const errorText = await response.text();
+        throw new Error(errorText || 'Payment initiation failed and response not JSON');
+      }
     }
 
-    return await response.json();
+    if (contentType.includes('application/json')) {
+      return await response.json();
+    } else {
+      const text = await response.text();
+      console.warn('Expected JSON response but got:', text);
+      throw new Error('Response is not JSON');
+    }
   } catch (error) {
+    console.error('stkPush error:', error);
     throw error;
   }
 };
