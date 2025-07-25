@@ -22,21 +22,33 @@ export default function ForgotPassword() {
       <div className="form-section">
         <h2>Forgot password</h2>
         <p>Enter your phone number or email to reset your password</p>
+
         <form onSubmit={handleSubmit}>
+          <label htmlFor="phone-input" className="input-label-forgot">
+            Phone Number
+          </label>
           <input
+            id="phone-input"
             type="text"
             placeholder="Phone number"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
+
+          <label htmlFor="email-input" className="input-label">
+            Email
+          </label>
           <input
+            id="email-input"
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+
           <button type="submit">Send</button>
         </form>
+
         <a className="back-login" href="/login">
           Back to login
         </a>

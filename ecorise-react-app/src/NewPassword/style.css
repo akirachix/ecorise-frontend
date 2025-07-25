@@ -50,9 +50,8 @@
 
 .form-section input[type="password"],
 .form-section input[type="text"] {
-  width: 800px;
-  height: 0.9cm;               
-  line-height: 0.9cm;          
+  width: 500px;
+  height: 1.2cm;               
   padding-left: 10px;         
   padding-right: 35px;         
   font-size: 15px;
@@ -66,13 +65,17 @@
 .form-section input[type="text"]:focus {
   outline: none;
   border-color: #942222;
-  /* box-shadow: 0 0 5px rgba(185, 0, 23, 0.5); */
+}
+.input-label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 400;
+  font-size: 17px;
+  color:black
 }
 
-.input-container {
-  width: 800px;
-  position: relative;
-}
+
+
 
 .toggle-btn-password, 
 .toggle-btn-confirm {
@@ -81,29 +84,24 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 16px;
-  height: 24px;
-  color: #942222; 
   user-select: none;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  transform: translateY(-50%);
 }
 
 .toggle-btn-password {
-  top: 48.5%;
+  top: 45%;
+  padding-right: 5cm;
 }
 
 .toggle-btn-confirm {
-  top: 54.5%;
+  top: 55.8%;
+  padding-right: 5cm;
 }
 
 .form-section button[type="submit"] {
   background-color: #942222;
   border: none;
-  width: 800px;
+  width: 500px;
   font-size: 15px;
   font-weight: 500;
   padding: 11px 0;
@@ -111,13 +109,12 @@
   color: #fff;
   margin-top: 9px;
   cursor: pointer;
-  letter-spacing: 0.5px;
-  transition: background-color 0.2s;
+
 }
 
 input::placeholder {
   font-size: 15px;      
   opacity: 1;
   transition: none;
-  line-height: 0.9cm; 
+  line-height: 1cm; 
 }
