@@ -3,11 +3,11 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Rewards from '../Reward';
 
 
-jest.mock('../hooks/RewardFetched', () => ({
+jest.mock('../hooks/useFetchRewards', () => ({
   useRewards: jest.fn(),
 }));
 
-import { useRewards } from '../hooks/RewardFetched';
+import { useRewards } from '../hooks/useFetchRewards';
 
 describe('Rewards component', () => {
 
