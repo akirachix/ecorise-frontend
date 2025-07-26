@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchJSON } from '../utils/RewardApi';
+import { fetchReward } from '../utils/fetchRewards';
 
 const API_URL = process.env.REACT_APP_REWARD_API_URL;
 
@@ -9,7 +9,7 @@ export function useRewards() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchJSON(API_URL)
+    fetchReward(API_URL)
       .then((data) => {
         setRewards(data);
         setLoading(false);
