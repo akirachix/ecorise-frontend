@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useRewards } from '../hooks/useFectchRewards';
+import { useRewards } from '../hooks/useFetchRewards';
 import './style.css';
 
 const columns = [
