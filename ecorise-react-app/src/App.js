@@ -1,18 +1,15 @@
-// import logo from './logo.svg';
-import './App.css';
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-
-import Navigation from "./pages/shared-folder/Navigation/Sidebar"
+import Dashboard  from "./Dashboard";
+import LoginScreen from "./Login";
 
 function App() {
   return (
     <Router>
       <Routes>
-       
-        <Route path="/navigation" element={<Navigation />} />
-        
-       
+        <Route path="/Dashboard" element = {<Dashboard/>}/>
+        <Route path="/" element = {<LoginScreen/>}/>
+
       </Routes>
     </Router>
   );

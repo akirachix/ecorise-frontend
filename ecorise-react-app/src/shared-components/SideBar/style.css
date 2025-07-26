@@ -29,6 +29,24 @@
   line-height: 1.2;
   color: white;
 }
+.sidebar-item {
+  background: #fff;
+  color: #8B0000;
+  margin: 12px 0;
+  border-radius: 8px;
+  padding: 14px 18px;
+  transition: box-shadow 0.2s, background 0.2s;
+  cursor: pointer;
+  border-left: 5px solid transparent;
+}
+.sidebar-item.active {
+  background: #FFEBB2;
+  color: #8B0000;
+  font-weight: bold;
+  border-left: 5px solid #8B0000;
+  box-shadow: 0 0 18px rgba(139, 0, 0, 0.13);
+}
+
 
 nav ul,
 .settings ul {
@@ -46,6 +64,8 @@ nav ul,
   width: 100%;
   box-sizing: border-box;
   transition: background 0.2s;
+  background-color: #8B0000;
+  color: #fff;
 }
 
 .sidebar-item:hover {
