@@ -1,4 +1,3 @@
-
 .container-forgot-password {
   display: flex;
   height: 100vh;
@@ -8,14 +7,12 @@
   justify-content: center;
 }
 
-
 .img-section img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
-
 
 .form-section {
   background: #fff;
@@ -35,10 +32,9 @@
   padding-bottom: 14px; 
 }
 
-
 .form-section p {
   color: #222;
-  font-size: 18px;
+  font-size: 21px;
   margin: 0 0 12px 0; 
   text-align: center;
   max-width: 450px;
@@ -47,17 +43,14 @@
 
 .input-label-forgot,
 .input-label {
-  display: block;         
-  width: 500px;           
-  text-align: left;       
-  margin: 0;              
-  padding: 0;             
+  display: block;
+  width: 500px;
+  text-align: left;
   font-weight: 400;
-  font-size: 17px;
+  font-size: 19px;
   color: black;
-  user-select: none;
+  
 }
-
 
 .form-section input[type="text"],
 .form-section input[type="email"],
@@ -67,11 +60,11 @@
   border: 1.5px solid #942222;
   border-radius: 3px;
   height: 1.2cm;
+  margin-top: -0.3cm;      
+  margin-bottom: 12px; 
+  padding: 6px 10px;  
   box-sizing: border-box;
-  padding: 0 10px;
-  transition: border-color 0.2s, box-shadow 0.2s;
 }
-
 
 .form-section input[type="text"]::placeholder,
 .form-section input[type="email"]::placeholder,
@@ -79,7 +72,6 @@
   font-size: 15px;
   color: #888;
   opacity: 1;
-  transition: none;
 }
 
 .container-forgot-password input[type="email"]:focus,
@@ -107,16 +99,13 @@
   background-color: #7a1a1a;
 }
 
-
 .back-login {
   display: inline-block;
-  margin: 8px 0 0 0;
+  margin: 1cm 0 0 0;
   color: #DA6304;
   font-size: 17px;
   text-decoration: underline;
   cursor: pointer;
-  margin-top: 1cm;
-
 }
 
 .back-login:hover {

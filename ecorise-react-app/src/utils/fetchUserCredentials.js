@@ -1,5 +1,6 @@
 
 
+
 export async function fetchUsers() {
   try {
     const response = await fetch(
@@ -8,7 +9,6 @@ export async function fetchUsers() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-         
         },
       }
     );
@@ -18,7 +18,7 @@ export async function fetchUsers() {
     }
 
     const users = await response.json();
-    return users; 
+    return users;
   } catch (error) {
     console.error("Error fetching users:", error);
     throw error;
