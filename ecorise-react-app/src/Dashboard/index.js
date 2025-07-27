@@ -11,7 +11,7 @@ import { usePickups, useMarkets, useRewards, useProducts, useUsers, usePayment }
 function Dashboard() {
   const navigate = useNavigate();
  
-  const {data:rewards ,loading:rewardsLoading} = useRewards;
+  const {data:rewards ,loading:rewardsLoading} = useRewards();
   const { data: pickups  , loading: pickupsLoading } = usePickups();
   const { data: products, loading: productsLoading } = useProducts();
   const { data: payment , loading: paymentsLoading } = usePayment();

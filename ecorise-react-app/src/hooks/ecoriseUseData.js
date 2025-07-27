@@ -1,12 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  fetchPickups,
-  fetchMarkets,
-  fetchRewards,
-  fetchProducts,
-  fetchUsers,
-  fetchPayment,
-} from "../utils/fetchEcoriseApi";
+import {fetchPickups,fetchMarkets,fetchRewards,fetchProducts,fetchUsers,fetchPayment} from "../utils/fetchEcoriseApi";
 
 export const useUsers = () => {
   const [data, setData] = useState([]);
@@ -125,10 +118,10 @@ export const usePayment = () => {
     const getPayments = async () => {
       try {
         const result = await fetchPayment();
-        console.log("Fetched payment result:", result); 
+        console.log("Fetched payment result:", result);
         setData(Array.isArray(result) ? result : []);
       } catch (err) {
-        console.error("Payment fetch error:", err); 
+        console.error("Payment fetch error:", err);
         setError(err?.message || "Failed to load payments");
         setData([]);
       } finally {
