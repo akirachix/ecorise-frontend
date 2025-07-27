@@ -6,7 +6,7 @@ import { FaUsers, FaTshirt, FaStar, FaPray, FaTruckPickup, FaMonero } from "reac
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
-import { usePickups, useMarkets, useRewards, useProducts, useUsers, usePayment } from "../hooks/ecoriseUseData";
+import { usePickups, useMarkets, useRewards, useProducts, useUsers, usePayment } from "../hooks/useFetchDashboard";
 
 function Dashboard() {
   const navigate = useNavigate();
