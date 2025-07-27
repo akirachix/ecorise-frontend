@@ -15,7 +15,7 @@ function Dashboard() {
   const { data: pickups  , loading: pickupsLoading } = usePickups();
   const { data: products, loading: productsLoading } = useProducts();
   const { data: payment , loading: paymentsLoading } = usePayment();
-  const { data: users , loading, error } = useUsers() || {};
+  const { data: users , loading, error } = useUsers();
 
   if (loading || pickupsLoading || productsLoading || paymentsLoading) return <p>Loading dashboard...</p>;
   if (error) return <p>Error loading traders: {error}</p>;
