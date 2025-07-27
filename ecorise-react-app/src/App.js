@@ -1,36 +1,18 @@
-
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard  from "./Dashboard";
 import LoginScreen from "./Login";
 
-
-import './App.css';
-import React, { useState } from 'react';
-
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Sidebar from './shared-component/SideBar';
-import PaymentForm from './Payment';
-import Rewards from './Reward'
-
-
 function App() {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
   return (
     <Router>
-      <div style={{ display: 'flex' }}>
-        <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+      <Routes>
+        <Route path="/dashboard" element = {<Dashboard/>}/>
+        <Route path="/login" element = {<LoginScreen/>}/>
 
-        <div style={{ flex: 1, padding: '20px' }}>
-          <Routes>
-            <Route path="/payment" element={<PaymentForm />} />
-            <Route path="/reward" element={<Rewards />} />
-            {}
-          </Routes>
-        </div>
-      </div>
+      </Routes>
     </Router>
+  );
+}
 
+export default App;
