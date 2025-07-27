@@ -33,6 +33,7 @@ function Dashboard() {
   (sum, product) => sum + product.quantity,
   0
 );
+
 const totalMaterial = pickups.reduce((sum, pickup) => {
   const product = products.find(p => p.product_id === pickup.material);
   return sum + (product?.quantity || 0);
