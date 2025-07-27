@@ -2,95 +2,138 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Dashboard from "./index"; 
 import { BrowserRouter } from "react-router-dom";
+import { renderHook } from '@testing-library/react-hooks';
 
-
-const mockedNavigate = jest.fn();
-
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useNavigate: () => mockedNavigate,
+jest.mock('../utils/fetchEcoriseApi', () => ({
+  fetchUsers: jest.fn(),
+  fetchPickups: jest.fn(),
+  fetchMarkets: jest.fn(),
+  fetchRewards: jest.fn(),
+  fetchProducts: jest.fn(),
+  fetchPayment: jest.fn(),
 }));
 
-describe("Dashboard component", () => {
+const {
+  fetchUsers,
+  fetchPickups,
+  fetchMarkets,
+  fetchRewards,
+  fetchProducts,
+  fetchPayment,
+} = require('../utils/fetchEcoriseApi');
 
-  beforeEach(() => {
-    mockedNavigate.mockClear();
+describe('ecorise hooks', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
-  const renderWithRouter = (ui) => {
-    return render(<BrowserRouter>{ui}</BrowserRouter>);
-  };
-
-  test("renders dashboard title", () => {
-    renderWithRouter(<Dashboard />);
-    const title = screen.getByText(/ECORISE/i);
-    expect(title).toBeInTheDocument();
+  test('useUsers success', async () => {
+    fetchUsers.mockResolvedValue([{ id: 1 }, { id: 2 }]);
+    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.useUsers());
+    await waitForNextUpdate();
+    expect(result.current.data).toEqual([{ id: 1 }, { id: 2 }]);
+    expect(result.current.loading).toBe(false);
+    expect(result.current.error).toBe(null);
   });
 
-  test("renders all statistics cards with correct labels and values", () => {
-    renderWithRouter(<Dashboard />);
-    
-    expect(screen.getByText("Total traders")).toBeInTheDocument();
-    expect(screen.getByText("Total collected materials ")).toBeInTheDocument();
-    expect(screen.getByText("Total awarded points")).toBeInTheDocument();
-
-    
-    expect(screen.getByText("865")).toBeInTheDocument();
-    expect(screen.getByText("1564 Kg")).toBeInTheDocument();
-    expect(screen.getByText("342")).toBeInTheDocument();
+  test('useUsers error', async () => {
+    fetchUsers.mockRejectedValue(new Error('User error'));
+    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.useUsers());
+    await waitForNextUpdate();
+    expect(result.current.data).toEqual([]);
+    expect(result.current.loading).toBe(false);
+    expect(result.current.error).toBe('User error');
   });
 
-  test("clicking on a statistics card triggers navigation with correct route", () => {
-    renderWithRouter(<Dashboard />);
-    const statCard = screen.getByText("Total traders").closest("div[role='button']");
-    expect(statCard).toBeInTheDocument();
-
-    fireEvent.click(statCard);
-    expect(mockedNavigate).toHaveBeenCalledWith("/trader");
+  test('usePickups success', async () => {
+    fetchPickups.mockResolvedValue([{ id: 'a' }]);
+    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.usePickups());
+    await waitForNextUpdate();
+    expect(result.current.data).toEqual([{ id: 'a' }]);
+    expect(result.current.loading).toBe(false);
+    expect(result.current.error).toBe(null);
   });
 
-  test("renders circular progress bar with correct percentage text", () => {
-    renderWithRouter(<Dashboard />);
-    expect(screen.getByText("70%")).toBeInTheDocument();
+  test('usePickups error', async () => {
+    fetchPickups.mockRejectedValue(new Error('Pickup error'));
+    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.usePickups());
+    await waitForNextUpdate();
+    expect(result.current.data).toEqual([]);
+    expect(result.current.loading).toBe(false);
+    expect(result.current.error).toBe('Pickup error');
   });
 
-  test("renders all cards with correct labels and values", () => {
-    renderWithRouter(<Dashboard />);
-    expect(screen.getByText("Available product reward")).toBeInTheDocument();
-    expect(screen.getByText("Pending pickup requests")).toBeInTheDocument();
-    expect(screen.getByText("Pending payments")).toBeInTheDocument();
-
-    expect(screen.getByText("865")).toBeInTheDocument();
-    expect(screen.getByText("15")).toBeInTheDocument();
-    expect(screen.getByText("342")).toBeInTheDocument();
+  test('useMarkets success', async () => {
+    fetchMarkets.mockResolvedValue([{ id: 'm' }]);
+    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.useMarkets());
+    await waitForNextUpdate();
+    expect(result.current.data).toEqual([{ id: 'm' }]);
+    expect(result.current.loading).toBe(false);
+    expect(result.current.error).toBe(null);
   });
 
-  test("clicking on a card triggers navigation with correct route", () => {
-    renderWithRouter(<Dashboard />);
-    const card = screen.getByText("Pending payments").closest("div[role='button']");
-    expect(card).toBeInTheDocument();
-
-    fireEvent.click(card);
-    expect(mockedNavigate).toHaveBeenCalledWith("/Payments");
+  test('useMarkets error', async () => {
+    fetchMarkets.mockRejectedValue(new Error('Market error'));
+    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.useMarkets());
+    await waitForNextUpdate();
+    expect(result.current.data).toEqual([]);
+    expect(result.current.loading).toBe(false);
+    expect(result.current.error).toBe('Market error');
   });
 
-  test("renders chart bars for each month in chartData", () => {
-    renderWithRouter(<Dashboard />);
-
-    expect(screen.getByText("Jan")).toBeInTheDocument();
-    expect(screen.getByText("Feb")).toBeInTheDocument();
-    expect(screen.getByText("Mar")).toBeInTheDocument();
-    expect(screen.getByText("April")).toBeInTheDocument();
-    expect(screen.getByText("May")).toBeInTheDocument();
+  test('useRewards success', async () => {
+    fetchRewards.mockResolvedValue([{ id: 'r' }]);
+    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.useRewards());
+    await waitForNextUpdate();
+    expect(result.current.data).toEqual([{ id: 'r' }]);
+    expect(result.current.loading).toBe(false);
+    expect(result.current.error).toBe(null);
   });
 
-  test("renders market request percentages with correct names and percentages", () => {
-    renderWithRouter(<Dashboard />);
-    expect(screen.getByText("Gikomba")).toBeInTheDocument();
-    expect(screen.getByText("49%")).toBeInTheDocument();
-
-    expect(screen.getByText("Mtindwa")).toBeInTheDocument();
-    expect(screen.getByText("25%")).toBeInTheDocument();
+  test('useRewards error', async () => {
+    fetchRewards.mockRejectedValue(new Error('Reward error'));
+    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.useRewards());
+    await waitForNextUpdate();
+    expect(result.current.data).toEqual([]);
+    expect(result.current.loading).toBe(false);
+    expect(result.current.error).toBe('Reward error');
   });
 
+  test('useProducts success', async () => {
+    fetchProducts.mockResolvedValue([{ id: 'p' }]);
+    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.useProducts());
+    await waitForNextUpdate();
+    expect(result.current.data).toEqual([{ id: 'p' }]);
+    expect(result.current.loading).toBe(false);
+    expect(result.current.error).toBe(null);
+  });
+
+  test('useProducts error', async () => {
+    fetchProducts.mockRejectedValue(new Error('Product error'));
+    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.useProducts());
+    await waitForNextUpdate();
+    expect(result.current.data).toEqual([]);
+    expect(result.current.loading).toBe(false);
+    expect(result.current.error).toBe('Product error');
+  });
+
+  test('usePayment success', async () => {
+    fetchPayment.mockResolvedValue([{ id: 'pay' }]);
+    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.usePayment());
+    await waitForNextUpdate();
+    expect(result.current.data).toEqual([{ id: 'pay' }]);
+    expect(result.current.loading).toBe(false);
+    expect(result.current.error).toBe(null);
+  });
+
+  test('usePayment error', async () => {
+    fetchPayment.mockRejectedValue(new Error('Payment error'));
+    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.usePayment());
+    await waitForNextUpdate();
+    expect(result.current.data).toEqual([]);
+    expect(result.current.loading).toBe(false);
+    expect(result.current.error).toBe('Payment error');
+  });
 });
+
+

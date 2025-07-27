@@ -209,12 +209,10 @@
 
 .chart-reward {
   background: #DA6304;   
-  height: 250px;           
 }
 
 .chart-materials {
   background: #a50922;    
-  height: 350px;  
 }
 
 .chart-bar {
@@ -246,11 +244,11 @@
 }
 
 .rewards-dot {
-  background: #DA6304;
+  background: #a50922;
 }
 
 .materials-dot {
-  background: #a50922;
+  background: #DA6304;
 }
 .dashboard-market {
   flex: 0.9;

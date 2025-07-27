@@ -23,3 +23,4 @@ export const fetchRewards = () => apiFetch("/api/reward/");
 export const fetchProducts = () => apiFetch("/api/product/");   
 export const fetchPickups = () => apiFetch("/api/pickups/")
 export const fetchPayment = () => apiFetch("/api/payment/")
+

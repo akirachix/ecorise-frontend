@@ -1,26 +1,36 @@
 import React, { useState } from "react";
-import { FaUser, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { fetchUsers } from "../utils/fetchEcoriseApi";
 import "./style.css";
 
-function LoginScreen() {
-  const [form, setForm] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
+const LoginScreen = () => {
+  const [form, setForm] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    if (error) setError("error in login in"); 
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
-
-    navigate("/dashboard");
+    setError("");
+    try {
+      const users = await fetchUsers();
+      const user = users.find(u => u.email === form.email);
+      if (user && user.password === form.password) {
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        navigate("/dashboard");
+      } else {
+        setError("Invalid email or password.");
+      }
+    } catch (err) {
+      setError("Error logging in. Please try again.");
+    }
   };
 
   return (
@@ -29,22 +39,8 @@ function LoginScreen() {
       <div className="login-form-section">
         <form className="login-form" onSubmit={handleSubmit}>
           <h2 className="login-title">Login</h2>
-          
-          <label className="login-label" htmlFor="username">Username</label>
-          <div className="input-icon-wrapper">
-            <FaUser className="input-icon" />
-            <input
-              id="username"
-              name="username"
-              className="login-input"
-              type="text"
-              placeholder="Username"
-              value={form.username}
-              onChange={handleChange}
-              autoComplete="username"
-            />
-          </div>
-          
+          {error && <div style={{ color: "red", textAlign: "center" }}>{error}</div>}
+
           <label className="login-label" htmlFor="email">Email</label>
           <div className="input-icon-wrapper">
             <MdEmail className="input-icon" />
@@ -57,9 +53,10 @@ function LoginScreen() {
               value={form.email}
               onChange={handleChange}
               autoComplete="email"
+              required
             />
           </div>
-          
+
           <label className="login-label" htmlFor="password">Password</label>
           <div className="input-icon-wrapper">
             <input
@@ -71,15 +68,17 @@ function LoginScreen() {
               value={form.password}
               onChange={handleChange}
               autoComplete="current-password"
+              required
             />
             <span
               className="input-icon toggle-icon"
-              onClick={() => setShowPassword((s) => !s)}
+              onClick={() => setShowPassword(s => !s)}
               style={{ cursor: "pointer" }}
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
+
           <button type="submit" className="login-button">
             Login
           </button>
@@ -93,6 +92,6 @@ function LoginScreen() {
       </div>
     </div>
   );
-}
+};
 
 export default LoginScreen;

@@ -1,52 +1,129 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import LoginScreen from "./LoginScreen";
+import { fetchUsers } from "../utils/fetchEcoriseApi";
+
+import { renderHook } from '@testing-library/react-hooks';
+import { BrowserRouter } from "react-router-dom";
+
+
+jest.mock("../utils/fetchEcoriseApi");
+const mockedNavigate = jest.fn();
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockedNavigate,
+}));
 
 describe("LoginScreen", () => {
-  test("renders all login form fields and labels", () => {
-    render(<LoginScreen />);
-    expect(screen.getByText("Login")).toBeInTheDocument();
-    expect(screen.getByLabelText("Username")).toBeInTheDocument();
-    expect(screen.getByLabelText("Email")).toBeInTheDocument();
-    expect(screen.getByLabelText("Password")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /login/i })).toBeInTheDocument();
-    expect(screen.getByText(/forgot password/i)).toBeInTheDocument();
-    expect(screen.getByText(/don't have an account/i)).toBeInTheDocument();
-    expect(screen.getByText(/sign up/i)).toBeInTheDocument();
-  });
-
-  test("inputs update state on change", () => {
-    render(<LoginScreen />);
-    const usernameInput = screen.getByPlaceholderText("Username");
-    const emailInput = screen.getByPlaceholderText("Email");
-    const passwordInput = screen.getByPlaceholderText("Password");
-
-    fireEvent.change(usernameInput, { target: { value: "testuser" } });
-    fireEvent.change(emailInput, { target: { value: "test@example.com" } });
-    fireEvent.change(passwordInput, { target: { value: "password123" } });
-
-    expect(usernameInput.value).toBe("testuser");
-    expect(emailInput.value).toBe("test@example.com");
-    expect(passwordInput.value).toBe("password123");
-  });
-
-  test("shows alert with entered credentials on submit", () => {
-    window.alert = jest.fn();
-    render(<LoginScreen />);
-    fireEvent.change(screen.getByPlaceholderText("Username"), { target: { value: "testuser" } });
-    fireEvent.change(screen.getByPlaceholderText("Email"), { target: { value: "test@example.com" } });
-    fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: "password123" } });
-
-    fireEvent.click(screen.getByRole("button", { name: /login/i }));
-
-    expect(window.alert).toHaveBeenCalledWith(
-      "Username: testuser\nEmail: test@example.com\nPassword: password123"
+  const renderComponent = () =>
+    render(
+      <BrowserRouter>
+        <LoginScreen />
+      </BrowserRouter>
     );
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    localStorage.clear();
   });
 
-  test("forgot password and signup links are present", () => {
-    render(<LoginScreen />);
-    expect(screen.getByText(/forgot password/i)).toBeInTheDocument();
-    expect(screen.getByText(/sign up/i)).toBeInTheDocument();
+  test("renders login form", () => {
+    renderComponent();
+    expect(screen.getByRole("heading", { name: /login/i })).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/email/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/password/i)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /login/i })).toBeInTheDocument();
+  });
+
+  test("toggles password visibility", () => {
+    renderComponent();
+    const passwordInput = screen.getByPlaceholderText(/password/i);
+    const toggleButton = screen.getByRole("button", { hidden: true }) || screen.getByText("", { selector: ".toggle-icon" });
+
+    
+    expect(passwordInput).toHaveAttribute("type", "password");
+
+    fireEvent.click(screen.getByRole("button", { hidden: true }) || screen.getByText("", { selector: ".toggle-icon" }));
+
+  
+    expect(passwordInput).toHaveAttribute("type", "text");
+  });
+
+  test("shows error on invalid credentials", async () => {
+    fetchUsers.mockResolvedValue([
+      { email: "test@example.com", password: "correctpass" }
+    ]);
+
+    renderComponent();
+
+  
+    userEvent.type(screen.getByPlaceholderText(/email/i), "test@example.com");
+    userEvent.type(screen.getByPlaceholderText(/password/i), "wrongpass");
+
+    fireEvent.submit(screen.getByRole("form"));
+
+    await waitFor(() => {
+      expect(screen.getByText(/invalid email or password/i)).toBeInTheDocument();
+    });
+
+    expect(mockedNavigate).not.toHaveBeenCalled();
+  });
+
+  test("logs in user with correct credentials and navigates", async () => {
+    const user = { email: "test@example.com", password: "correctpass" };
+    fetchUsers.mockResolvedValue([user]);
+
+    renderComponent();
+
+    userEvent.type(screen.getByPlaceholderText(/email/i), user.email);
+    userEvent.type(screen.getByPlaceholderText(/password/i), user.password);
+
+    fireEvent.submit(screen.getByRole("form"));
+
+    await waitFor(() => {
+      
+      const storedUser = JSON.parse(localStorage.getItem("currentUser"));
+      expect(storedUser).toEqual(user);
+
+      
+      expect(mockedNavigate).toHaveBeenCalledWith("/dashboard");
+    });
+  });
+
+  test("shows error if fetchUsers throws an error", async () => {
+    fetchUsers.mockRejectedValue(new Error("API error"));
+
+    renderComponent();
+
+    userEvent.type(screen.getByPlaceholderText(/email/i), "test@example.com");
+    userEvent.type(screen.getByPlaceholderText(/password/i), "anyPassword");
+
+    fireEvent.submit(screen.getByRole("form"));
+
+    await waitFor(() => {
+      expect(screen.getByText(/error logging in/i)).toBeInTheDocument();
+    });
+
+    expect(mockedNavigate).not.toHaveBeenCalled();
+  });
+
+  test("clears error on input change", async () => {
+    fetchUsers.mockResolvedValue([
+      { email: "test@example.com", password: "correctpass" }
+    ]);
+
+    renderComponent();
+    userEvent.type(screen.getByPlaceholderText(/email/i), "unknown@example.com");
+    userEvent.type(screen.getByPlaceholderText(/password/i), "wrongpass");
+    fireEvent.submit(screen.getByRole("form"));
+
+    await waitFor(() => {
+      expect(screen.getByText(/invalid email or password/i)).toBeInTheDocument();
+    });
+
+    userEvent.type(screen.getByPlaceholderText(/email/i), "a");
+    
+    expect(screen.getByText(/error in login in/i)).toBeInTheDocument();
   });
 });
