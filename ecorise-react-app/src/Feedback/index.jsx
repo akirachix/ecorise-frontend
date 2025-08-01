@@ -10,6 +10,7 @@ const columns = [
 ];
 function Feedback() {
   const { feedback, loading, error } = useFeedback();
+
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const totalPages = Math.max(1, Math.ceil(feedback.length / rowsPerPage));
@@ -19,9 +20,9 @@ function Feedback() {
     }
   }, [currentPage, totalPages]);
   const pagedFeedback = useMemo(() => {
-    const start = (currentPage - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-    return feedback.slice(start, end);
+  const start = (currentPage - 1) * rowsPerPage;
+  const end = start + rowsPerPage;
+  return feedback.slice(start, end);
   }, [feedback, currentPage, rowsPerPage]);
   if (loading) return <div className="feedback-loading">Loading feedback...</div>;
   if (error) return <div className="feedback-error">Error: {error}</div>;
@@ -86,7 +87,7 @@ function Feedback() {
           disabled={currentPage === 1}
           aria-label="Previous page"
           className="pagination-button"
-          style={{ padding: '0.5rem 1rem', marginRight: '1rem', cursor: currentPage === 1 ? 'not-allowed' : 'pointer' }}
+          style={{ padding: '0.5rem 1rem', marginRight: '1rem', cursor: currentPage === 1 ? 'not-allowed' : 'pointer' }} 
         >
           Previous
         </button>
