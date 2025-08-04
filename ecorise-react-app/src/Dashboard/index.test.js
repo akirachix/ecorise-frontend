@@ -3,6 +3,8 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import Dashboard from './index';
 import * as hooks from '../hooks/useFetchDashboard';
 import { BrowserRouter } from 'react-router-dom';
+
+
 const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => {
   const original = jest.requireActual('react-router-dom');
@@ -30,6 +32,9 @@ describe('Dashboard component', () => {
     jest.spyOn(hooks, 'useProducts').mockReturnValue({ data: [], loading: false, error: null });
     jest.spyOn(hooks, 'usePayment').mockReturnValue({ data: [], loading: false, error: null });
     jest.spyOn(hooks, 'useRewards').mockReturnValue({ data: [], loading: false, error: null });
+
+    renderDashboard();
+    expect(screen.getByText(/loading dashboard/i)).toBeInTheDocument();
   });
 
   test('shows error message when useUsers returns error', () => {
@@ -38,6 +43,9 @@ describe('Dashboard component', () => {
     jest.spyOn(hooks, 'useProducts').mockReturnValue({ data: [], loading: false, error: null });
     jest.spyOn(hooks, 'usePayment').mockReturnValue({ data: [], loading: false, error: null });
     jest.spyOn(hooks, 'useRewards').mockReturnValue({ data: [], loading: false, error: null });
+
+    renderDashboard();
+    expect(screen.getByText(/error loading traders: fetch failed/i)).toBeInTheDocument();
   });
 
   test('renders statistics, cards, gauge, and market list with valid data', () => {
@@ -64,6 +72,16 @@ describe('Dashboard component', () => {
     jest.spyOn(hooks, 'useRewards').mockReturnValue({ data: rewards, loading: false, error: null });
 
     renderDashboard();
+    expect(screen.getByText(/total traders/i).nextSibling).toHaveTextContent(users.length.toString());
+    expect(screen.getByText(/total collected materials/i).nextSibling).toHaveTextContent(pickups.length.toString());
+    expect(screen.getByText(/points awarded/i).nextSibling).toHaveTextContent(
+      payment.reduce((sum, p) => sum + p.points_award, 0).toString()
+    );
+
+
+    expect(screen.getByText(/available product reward/i).nextSibling).toHaveTextContent(products.length.toString());
+    expect(screen.getByText(/pending pickup requests/i).nextSibling).toHaveTextContent('2'); 
+    expect(screen.getByText(/total amount paid/i).nextSibling).toHaveTextContent('500'); 
 
     fireEvent.click(screen.getByText(/total traders/i).closest('div[role="button"]'));
     expect(mockNavigate).toHaveBeenCalledWith('/trader');
@@ -80,5 +98,7 @@ describe('Dashboard component', () => {
     jest.spyOn(hooks, 'useRewards').mockReturnValue({ data: [], loading: false, error: null });
 
     renderDashboard();
+
+    expect(screen.getByText('0%')).toBeInTheDocument();
   });
 });
