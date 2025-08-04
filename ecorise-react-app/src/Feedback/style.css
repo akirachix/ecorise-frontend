@@ -185,6 +185,8 @@ html, body {
 }
 .pagination-controls{
   margin-right: 8px;
+  justify-content: center;
+
 
 
 }
