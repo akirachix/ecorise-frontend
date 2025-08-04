@@ -6,12 +6,10 @@ import { FaUsers, FaTshirt, FaStar, FaProductHunt, FaTruckPickup, FaMonero } fro
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
-import { usePickups, useRewards, useProducts, useUsers, usePayment } from "../hooks/useFetchDashboard";
+import { usePickups,useProducts, useUsers, usePayment } from "../hooks/useFetchDashboard";
 
 function Dashboard() {
   const navigate = useNavigate();
- 
-  const {data:rewards ,loading:rewardsLoading} = useRewards();
   const { data: pickups  , loading: pickupsLoading } = usePickups();
   const { data: products, loading: productsLoading } = useProducts();
   const { data: payment , loading: paymentsLoading } = usePayment();

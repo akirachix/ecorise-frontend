@@ -1,5 +1,5 @@
 import React from 'react';
-import {act, render, screen, fireEvent, waitFor } from '@testing-library/react';
+import {render, screen, fireEvent} from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import LoginScreen from "./index";
 import * as api from '../utils/fetchEcoriseApi';
@@ -41,6 +41,7 @@ describe('LoginScreen component', () => {
   });
 
   test('shows error message on invalid login credentials', async () => {
+
     jest.spyOn(api, 'fetchUsers').mockResolvedValue([
       { email: 'existing@example.com', password: 'correctpassword' },
     ]);
