@@ -47,15 +47,15 @@ describe('Feedback component', () => {
     const feedbackData = [
       {
         feedback_id: '1',
-        user_type: 'admin',
-        created_at: '2022-01-01T12:00:00Z',
+        user_type: 'user',
+        created_at: '7/26/2025',
         feedback: 'Great service!',
         user: 'Salma Fred',
       },
       {
         feedback_id: '2',
         user_type: 'user',
-        created_at: '2022-02-15T08:30:00Z',
+        created_at: '7/27/2025',
         feedback: 'Could be better.',
         user: 'Jane Rambo',
       },
