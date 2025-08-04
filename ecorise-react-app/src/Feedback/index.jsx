@@ -44,7 +44,7 @@ function Feedback() {
      <h1 className="feedback-title">Feedback</h1>
 
 
-     <div className="pagination-controls" >
+     <div className="pagination-controls-top" >
        <label htmlFor="rows-per-page">
          Rows per page:
        </label>

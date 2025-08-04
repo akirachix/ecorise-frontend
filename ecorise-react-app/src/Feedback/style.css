@@ -178,8 +178,10 @@ html, body {
  display: flex;
  margin-bottom: 1.5rem;
 }
-.pagination-controls{
-  margin-bottom: 1rem;
+.pagination-controls-top{
+    margin-right: 8px;
+    margin-bottom: 3px;
+  
 
 
 }
