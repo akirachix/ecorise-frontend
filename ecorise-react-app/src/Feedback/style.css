@@ -212,17 +212,14 @@ html, body {
    padding: 1rem 0;
  }
 
-
  .value-cell {
    font-size: 14px;
    padding: 1rem 0.5rem;
  }
 
-
  .pagination-controls label {
    font-size: 1rem;
  }
-
 
  .pagination-button {
    font-size: 1rem;
