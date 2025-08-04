@@ -1,25 +1,40 @@
-import logo from './logo.svg';
+
+
 import './App.css';
+import React, { useState } from 'react';
+
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Sidebar from './shared-component/SideBar';
+import PaymentForm from './Payment';
+import Rewards from './Reward'
+import Teaser from './Teaser';
+import Feedback from './Feedback'
 
 function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <Router>
+      <div style={{ display: 'flex' }}>
+        <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+
+        <div style={{ flex: 1, padding: '20px' }}>
+          <Routes>
+            <Route path="/payment" element={<PaymentForm />} />
+            <Route path="/reward" element={<Rewards />} />
+            <Route path="/teaser" element={<Teaser />} />
+            <Route path='/feedback' element={<Feedback />} />  
+            {}
+          </Routes>
+        </div>
+      </div>
+    </Router>
+  )};
+
+
 
 export default App;
