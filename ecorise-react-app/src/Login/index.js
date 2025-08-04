@@ -83,7 +83,6 @@ const LoginScreen = () => {
             Login
           </button>
           <div className="login-links">
-            <a href="#" className="forgot-password">Forgot password?</a>
             <div className="signup-question">
               Don't have an account? <a href="#" className="signup-link">Sign Up</a>
             </div>

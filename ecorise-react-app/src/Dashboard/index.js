@@ -1,12 +1,12 @@
 
 import React from "react";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import Sidebar from '../shared-components/SideBar';
-import { FaUsers, FaTshirt, FaStar, FaPray, FaTruckPickup, FaMonero } from "react-icons/fa";
+import Sidebar from '../shared-component/SideBar';
+import { FaUsers, FaTshirt, FaStar, FaProductHunt, FaTruckPickup, FaMonero } from "react-icons/fa";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
-import { usePickups, useMarkets, useRewards, useProducts, useUsers, usePayment } from "../hooks/useFetchDashboard";
+import { usePickups, useRewards, useProducts, useUsers, usePayment } from "../hooks/useFetchDashboard";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ function Dashboard() {
   const { data: users , loading, error } = useUsers();
 
   if (loading || pickupsLoading || productsLoading || paymentsLoading) return <p>Loading dashboard...</p>;
-  if (error) return <p>Error loading traders: {error}</p>;
+  if (error) return <p>Error loading dashboard: {error}</p>;
 
   
   const totalMaterialPickups = pickups.length;
@@ -52,7 +52,7 @@ const recycledPercentage = totalMaterial > 0
   const totalRequests = pickups.length;
   const marketRequests = Object.entries(locationCounts).map(([name, requests]) => ({
     name,
-    percent: totalRequests ? ((requests / totalRequests) * 100).toFixed(2) : 0
+    percent: totalRequests ? ((requests / totalRequests) * 100).toFixed(1) : 0
   }));
 
   
@@ -81,7 +81,7 @@ const recycledPercentage = totalMaterial > 0
   ];
   const cards = [
     {
-      icon: <FaPray size={40} />,
+      icon: <FaProductHunt size={40} />,
       label: "Available product reward",
       value: availableProduct,
       color: "#8B0000",
@@ -222,7 +222,7 @@ const recycledPercentage = totalMaterial > 0
                         className="chart-reward"
                         style={{
                           height: yAxisMax ? `${(data.price / yAxisMax) * 200}px` : 0,
-                          background: " #Da6304",
+                          background: "#a50922",
                           width: 15,
                           marginRight: 2,
                           borderRadius: 3,
@@ -234,7 +234,7 @@ const recycledPercentage = totalMaterial > 0
                         className="chart-materials"
                         style={{
                           height: yAxisMax ? `${(data.paid / yAxisMax) * 200}px` : 0,
-                          background: "#a50922",
+                          background: " #Da6304",
                           width: 15,
                           borderRadius: 3,
                         }}

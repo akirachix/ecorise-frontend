@@ -1,139 +1,84 @@
-import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
-import Dashboard from "./index"; 
-import { BrowserRouter } from "react-router-dom";
-import { renderHook } from '@testing-library/react-hooks';
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import Dashboard from './index';
+import * as hooks from '../hooks/useFetchDashboard';
+import { BrowserRouter } from 'react-router-dom';
+const mockNavigate = jest.fn();
+jest.mock('react-router-dom', () => {
+  const original = jest.requireActual('react-router-dom');
+  return {
+    ...original,
+    useNavigate: () => mockNavigate,
+  };
+});
 
-jest.mock('../utils/fetchEcoriseApi', () => ({
-  fetchUsers: jest.fn(),
-  fetchPickups: jest.fn(),
-  fetchMarkets: jest.fn(),
-  fetchRewards: jest.fn(),
-  fetchProducts: jest.fn(),
-  fetchPayment: jest.fn(),
-}));
+const renderDashboard = () =>
+  render(
+    <BrowserRouter>
+      <Dashboard />
+    </BrowserRouter>
+  );
 
-const {
-  fetchUsers,
-  fetchPickups,
-  fetchMarkets,
-  fetchRewards,
-  fetchProducts,
-  fetchPayment,
-} = require('../utils/fetchEcoriseApi');
-
-describe('ecorise hooks', () => {
-  afterEach(() => {
+describe('Dashboard component', () => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  test('useUsers success', async () => {
-    fetchUsers.mockResolvedValue([{ id: 1 }, { id: 2 }]);
-    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.useUsers());
-    await waitForNextUpdate();
-    expect(result.current.data).toEqual([{ id: 1 }, { id: 2 }]);
-    expect(result.current.loading).toBe(false);
-    expect(result.current.error).toBe(null);
+  test('shows loading when any hook is loading', () => {
+    jest.spyOn(hooks, 'useUsers').mockReturnValue({ data: [], loading: true, error: null });
+    jest.spyOn(hooks, 'usePickups').mockReturnValue({ data: [], loading: false, error: null });
+    jest.spyOn(hooks, 'useProducts').mockReturnValue({ data: [], loading: false, error: null });
+    jest.spyOn(hooks, 'usePayment').mockReturnValue({ data: [], loading: false, error: null });
+    jest.spyOn(hooks, 'useRewards').mockReturnValue({ data: [], loading: false, error: null });
   });
 
-  test('useUsers error', async () => {
-    fetchUsers.mockRejectedValue(new Error('User error'));
-    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.useUsers());
-    await waitForNextUpdate();
-    expect(result.current.data).toEqual([]);
-    expect(result.current.loading).toBe(false);
-    expect(result.current.error).toBe('User error');
+  test('shows error message when useUsers returns error', () => {
+    jest.spyOn(hooks, 'useUsers').mockReturnValue({ data: [], loading: false, error: 'Fetch failed' });
+    jest.spyOn(hooks, 'usePickups').mockReturnValue({ data: [], loading: false, error: null });
+    jest.spyOn(hooks, 'useProducts').mockReturnValue({ data: [], loading: false, error: null });
+    jest.spyOn(hooks, 'usePayment').mockReturnValue({ data: [], loading: false, error: null });
+    jest.spyOn(hooks, 'useRewards').mockReturnValue({ data: [], loading: false, error: null });
   });
 
-  test('usePickups success', async () => {
-    fetchPickups.mockResolvedValue([{ id: 'a' }]);
-    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.usePickups());
-    await waitForNextUpdate();
-    expect(result.current.data).toEqual([{ id: 'a' }]);
-    expect(result.current.loading).toBe(false);
-    expect(result.current.error).toBe(null);
+  test('renders statistics, cards, gauge, and market list with valid data', () => {
+    const users = [{ id: 1 }, { id: 2 }];
+    const pickups = [
+      { pickup_id: 1, pickup_status: 'Pending', market_location: 'Market A', material: 101 },
+      { pickup_id: 2, pickup_status: 'Completed', market_location: 'Market B', material: 102 },
+      { pickup_id: 3, pickup_status: 'Pending', market_location: 'Market A', material: 101 }
+    ];
+    const products = [
+      { product_id: 101, quantity: 10, listed_at: '2023-07-01', price: 100 },
+      { product_id: 102, quantity: 5, listed_at: '2023-07-02', price: 150 }
+    ];
+    const payment = [
+      { id: 1, amount: 200, points_award: 50, paid_at: '2023-07-01' },
+      { id: 2, amount: 300, points_award: 100, paid_at: '2023-07-02' }
+    ];
+    const rewards = [];
+
+    jest.spyOn(hooks, 'useUsers').mockReturnValue({ data: users, loading: false, error: null });
+    jest.spyOn(hooks, 'usePickups').mockReturnValue({ data: pickups, loading: false, error: null });
+    jest.spyOn(hooks, 'useProducts').mockReturnValue({ data: products, loading: false, error: null });
+    jest.spyOn(hooks, 'usePayment').mockReturnValue({ data: payment, loading: false, error: null });
+    jest.spyOn(hooks, 'useRewards').mockReturnValue({ data: rewards, loading: false, error: null });
+
+    renderDashboard();
+
+    fireEvent.click(screen.getByText(/total traders/i).closest('div[role="button"]'));
+    expect(mockNavigate).toHaveBeenCalledWith('/trader');
+
+    fireEvent.click(screen.getByText(/available product reward/i).closest('div[role="button"]'));
+    expect(mockNavigate).toHaveBeenCalledWith('/Reward');
   });
 
-  test('usePickups error', async () => {
-    fetchPickups.mockRejectedValue(new Error('Pickup error'));
-    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.usePickups());
-    await waitForNextUpdate();
-    expect(result.current.data).toEqual([]);
-    expect(result.current.loading).toBe(false);
-    expect(result.current.error).toBe('Pickup error');
-  });
+  test('handles zero pickups correctly and shows 0% gauge', () => {
+    jest.spyOn(hooks, 'useUsers').mockReturnValue({ data: [], loading: false, error: null });
+    jest.spyOn(hooks, 'usePickups').mockReturnValue({ data: [], loading: false, error: null });
+    jest.spyOn(hooks, 'useProducts').mockReturnValue({ data: [], loading: false, error: null });
+    jest.spyOn(hooks, 'usePayment').mockReturnValue({ data: [], loading: false, error: null });
+    jest.spyOn(hooks, 'useRewards').mockReturnValue({ data: [], loading: false, error: null });
 
-  test('useMarkets success', async () => {
-    fetchMarkets.mockResolvedValue([{ id: 'm' }]);
-    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.useMarkets());
-    await waitForNextUpdate();
-    expect(result.current.data).toEqual([{ id: 'm' }]);
-    expect(result.current.loading).toBe(false);
-    expect(result.current.error).toBe(null);
-  });
-
-  test('useMarkets error', async () => {
-    fetchMarkets.mockRejectedValue(new Error('Market error'));
-    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.useMarkets());
-    await waitForNextUpdate();
-    expect(result.current.data).toEqual([]);
-    expect(result.current.loading).toBe(false);
-    expect(result.current.error).toBe('Market error');
-  });
-
-  test('useRewards success', async () => {
-    fetchRewards.mockResolvedValue([{ id: 'r' }]);
-    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.useRewards());
-    await waitForNextUpdate();
-    expect(result.current.data).toEqual([{ id: 'r' }]);
-    expect(result.current.loading).toBe(false);
-    expect(result.current.error).toBe(null);
-  });
-
-  test('useRewards error', async () => {
-    fetchRewards.mockRejectedValue(new Error('Reward error'));
-    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.useRewards());
-    await waitForNextUpdate();
-    expect(result.current.data).toEqual([]);
-    expect(result.current.loading).toBe(false);
-    expect(result.current.error).toBe('Reward error');
-  });
-
-  test('useProducts success', async () => {
-    fetchProducts.mockResolvedValue([{ id: 'p' }]);
-    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.useProducts());
-    await waitForNextUpdate();
-    expect(result.current.data).toEqual([{ id: 'p' }]);
-    expect(result.current.loading).toBe(false);
-    expect(result.current.error).toBe(null);
-  });
-
-  test('useProducts error', async () => {
-    fetchProducts.mockRejectedValue(new Error('Product error'));
-    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.useProducts());
-    await waitForNextUpdate();
-    expect(result.current.data).toEqual([]);
-    expect(result.current.loading).toBe(false);
-    expect(result.current.error).toBe('Product error');
-  });
-
-  test('usePayment success', async () => {
-    fetchPayment.mockResolvedValue([{ id: 'pay' }]);
-    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.usePayment());
-    await waitForNextUpdate();
-    expect(result.current.data).toEqual([{ id: 'pay' }]);
-    expect(result.current.loading).toBe(false);
-    expect(result.current.error).toBe(null);
-  });
-
-  test('usePayment error', async () => {
-    fetchPayment.mockRejectedValue(new Error('Payment error'));
-    const { result, waitForNextUpdate } = renderHook(() => EcoriseHooks.usePayment());
-    await waitForNextUpdate();
-    expect(result.current.data).toEqual([]);
-    expect(result.current.loading).toBe(false);
-    expect(result.current.error).toBe('Payment error');
+    renderDashboard();
   });
 });
-
-

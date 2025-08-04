@@ -169,6 +169,7 @@
   position: relative;
   bottom: 80px;
   color: #8B0000;
+  white-space: nowrap;
 }
 .bars{
   display: flex;
@@ -199,7 +200,9 @@
   color: #b32c2c;
   text-align: right;
   font-size: 0.9rem;
-  height: 50px;
+  height: 100px;
+  position: relative;
+  right: 32px;
 }
 
 .chart-reward, .chart-materials {
