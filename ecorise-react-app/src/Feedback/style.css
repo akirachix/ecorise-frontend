@@ -19,7 +19,7 @@ html, body {
   color: maroon;
   margin-bottom: 20px;
   font-weight: 700;
-  font-size: 2rem;
+  font-size: 42px;
 }
 
 
@@ -43,7 +43,7 @@ html, body {
 
 .label-cell {
   flex: 1;
-  font-size: 1.3rem;
+  font-size: 17pxrem;
   font-weight: 700;
   color: white;
   text-align: center;
@@ -53,6 +53,7 @@ html, body {
   border-right: 1px solid #cdd4e8;
   white-space: nowrap;
   user-select: none;
+
 }
 
 .label-cell:last-child {
@@ -81,9 +82,10 @@ html, body {
 .value-cell {
   flex: 1;
   padding: 1.75rem;
-  font-size: 1.25rem;
+  font-size: 1rem;
   text-align: center;
   border-bottom: none; 
+  flex: 1;
 }
 
 
@@ -93,14 +95,16 @@ html, body {
 
 .pagination-controls {
   display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
   gap: 10px;
   justify-content: flex-start;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
 }
 
 .pagination-controls label {
-  font-size: 1.1rem;
+  font-size: 17px;
   font-weight: 600;
   color: #444;
 }
@@ -123,6 +127,8 @@ html, body {
   font-size: 1.15rem;
   user-select: none;
   transition: background-color 0.2s;
+  padding: 0.5rem 1rem;
+   margin-right: 1rem;
 }
 
 .pagination-button:disabled {
@@ -145,4 +151,46 @@ html, body {
 .values-row {
   display: flex;
   margin-bottom: 1.5rem;
+}
+.pagination-controls{
+   margin-bottom: 1rem;
+
+}
+.pagination-controls{
+   margin-right: 8px;
+
+}
+.feedback-table-container{
+  display: flex;
+
+}
+
+.values-row{
+  display: flex;
+  border-bottom: 1px solid #ccc;
+
+}
+@media (max-width: 1024px) {
+  .feedback-title {
+    font-size: 30px; 
+  }
+
+  .label-cell {
+    font-size: 14px; 
+    padding: 1rem 0;
+  }
+
+  .value-cell {
+    font-size: 14px; 
+    padding: 1rem 0.5rem;
+  }
+
+  .pagination-controls label {
+    font-size: 1rem; 
+  }
+
+  .pagination-button {
+    font-size: 1rem; 
+    padding: 0.4rem 0.8rem;
+  }
 }
