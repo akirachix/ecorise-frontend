@@ -4,7 +4,7 @@ export async function fetchFeedback() {
    throw new Error('REACT_APP_FEEDBACK_API_BASE_URL is not defined');
  }
  const url = `${REACT_BASE_URL}/feedback`;
- console.log('Fetching from:', url);
+ 
  try {
    const response = await fetch(url);
    if (!response.ok) {
