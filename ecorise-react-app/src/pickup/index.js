@@ -16,13 +16,15 @@ function PickupTable({ onMaterialClick }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRowId, setSelectedRowId] = useState(null); 
   const [paidPickups, setPaidPickups] = useState(new Set());
+   useEffect(() => {
+    setLocalPickups(allPickups);
+  }, [allPickups]);
 
-  useEffect(() => {
-    if (!loading && allPickups.length) {
-      setLocalPickups(allPickups);
-      setCurrentPage(1);
-    }
-  }, [allPickups, loading]);
+ useEffect(() => {
+  console.log("Pickups from hook:", allPickups);
+  console.log("Loading:", loading);
+  console.log("Error:", error);
+}, [allPickups, loading, error]);
 
   const toggleStatus = (id) => {
     setLocalPickups((prev) =>
