@@ -23,10 +23,12 @@ function SignUp() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setForm(prev => ({
-      ...prev,
-      [name]: value,
-    }));
+    setForm(prev => {
+      const updatedForm = { ...prev };
+      updatedForm[name] = value;
+      return updatedForm;
+    });
+
 
     setError('');
     setSuccess('');
@@ -144,7 +146,7 @@ function SignUp() {
                 value={form.password}
                 onChange={handleChange}
                 required
-                
+
               />
               <span
                 className="signup-eye-icon"
