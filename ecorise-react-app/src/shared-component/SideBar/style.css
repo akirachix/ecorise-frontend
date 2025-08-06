@@ -13,6 +13,11 @@
   overflow-y: hidden;
   position: fixed;
 }
+.sidebar-item.active {
+  background-color: #DA6304;
+  color: white;
+  font-weight: bold;
+}
 
 .logo {
   text-align: center;

@@ -1,3 +1,7 @@
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Dashboard from './Dashboard';
+
 
 
 import './App.css';
@@ -11,13 +15,13 @@ import Teaser from './Teaser';
 import Feedback from './Feedback'
 
 function App() {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
   return (
+
+    <Routes>
+      <Route path="/" element={<Dashboard />} />
+    </Routes>
+  );
+}
     <Router>
       <div style={{ display: 'flex' }}>
         <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
@@ -34,6 +38,7 @@ function App() {
       </div>
     </Router>
   )};
+
 
 
 
