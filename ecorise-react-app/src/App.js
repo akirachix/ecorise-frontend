@@ -15,7 +15,7 @@ function App() {
        
           <Route path="signup" element={<SignupForm />} />
           <Route path="/pickup" element={<PickupTable />} />
-          <Route path="material" element={<MaterialTable />} />
+          <Route path="/material" element={<MaterialTable />} />
        
       </Routes>
     </Router>
