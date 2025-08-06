@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Sidebar from "../shared-components/sidebar";
-import useMaterialFetch from "../hooks/useFetchMaterial";
+import useFetchMaterial from "../hooks/useFetchMaterial"
 import "./index.css";
 
 function MaterialPricing() {
-  const { materials, loading, error, editMaterial, removeMaterial, addMaterial } = useMaterialFetch();
+  const { materials, loading, error, editMaterial, removeMaterial, addMaterial } = useFetchMaterial();
 
   const [editingId, setEditingId] = useState(null);
   const [editValues, setEditValues] = useState({ material_type: "", price_per_kg: "" });
