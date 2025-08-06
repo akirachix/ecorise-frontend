@@ -13,7 +13,7 @@ function App() {
       <Routes>
         
        
-          <Route path="signup" element={<SignupForm />} />
+          <Route path="/signup" element={<SignupForm />} />
           <Route path="/pickup" element={<PickupTable />} />
           <Route path="/material" element={<MaterialTable />} />
        
