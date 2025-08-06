@@ -6,7 +6,10 @@ import { FaUsers, FaTshirt, FaStar, FaProductHunt, FaTruckPickup, FaMonero } fro
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
-import { usePickups,useProducts, useUsers, usePayment } from "../hooks/useFetchDashboard";
+import { usePickups } from '../hooks/useFetchPickups';
+import { useProducts } from '../hooks/useFetchProducts';
+import { useUsers } from '../hooks/useFetchUser';
+import { usePayment } from '../hooks/useFetchPayments';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -138,7 +141,7 @@ const recycledPercentage = totalMaterial > 0
 
 
   const maxYValue = Math.max(...chartData.flatMap(d => [d.paid, d.price]), 0);
-  const yAxisStep = 5000;
+  const yAxisStep = 2000;
   const yAxisMax = Math.max(yAxisStep, Math.ceil(maxYValue / yAxisStep) * yAxisStep);
   const yLabels = [];
   for (let y = yAxisMax; y >= 0; y -= yAxisStep) {

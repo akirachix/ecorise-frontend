@@ -313,5 +313,47 @@
   color: #DA6304;
   font-weight: 500;
 } 
- 
 
+@media (min-width: 900px) and (max-width: 1024px) {
+  .dashboard-main {
+    width: 100%;
+    left: 0;
+    padding: 0 6px;
+  }
+  .dashboard-header {
+    padding: 10px 12px;
+    height: auto;
+    font-size: 1.1rem;
+  }
+  .dashboard-content {
+    margin: 18px 10px;
+    gap: 18px;
+  }
+  .dashboard-stats {
+    gap: 16px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .dashboard-stat-card {
+    min-width: 140px;
+    padding: 14px 12px;
+    font-size: 1rem;
+  }
+  .dashboard-market {
+    width: 100%;
+    padding: 14px 8px;
+    height: auto;
+    min-width: 200px;
+    max-width: 100%;
+  }
+  .market-list {
+    padding: 10px 0;
+  }
+  .chart-bar-pair {
+    width: 32px;
+    height: 140px;
+  }
+  .chart-y-axis {
+    height: 160px;
+  }
+}
