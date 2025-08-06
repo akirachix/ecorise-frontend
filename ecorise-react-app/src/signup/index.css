@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+.signup-container {
+  display: flex;
+  min-height: 100vh;
+  background: #fff;
+}
+
+.signup-image-side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+
+.signup-image {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+}
+
+.signup-form-side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+
+.signup-form {
+  width: 100%;
+  max-width: 470px;
+  background: #fff;
+  padding: 2.5rem 2.3rem;
+  border-radius: 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.signup-title {
+  text-align: center;
+  color: #A50019;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  letter-spacing: 2px;
+}
+
+.signup-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.signup-label {
+  font-weight: 400;
+  margin-bottom: 2px;
+  color: #080808;
+  font-size: 1.05rem;
+}
+
+.signup-input-wrapper {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #A50019;
+  border-radius: 4px;
+  padding: 0.5rem 0.8rem;
+  margin-top: 2px;
+  transition: border-color 0.2s;
+  position: relative;
+}
+
+.signup-input-wrapper:focus-within {
+  border-color: #942222;
+}
+
+.signup-icon {
+  margin-right: 0.6rem;
+  color: #942222;
+  font-size: 1.15rem;
+}
+
+.signup-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1.15rem;
+  padding: 0.5rem 0;
+  color: #222;
+}
+
+.signup-eye-icon {
+  cursor: pointer;
+  color: #942222;
+  font-size: 1.18rem;
+  margin-left: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.signup-error {
+  color: #fff;
+  border: #080808 1px;
+  border-radius: 6px;
+  padding: 0.7rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.signup-btn {
+  background: #942222;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 1rem 0;
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin-top: 20px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: 100%;
+}
+
+.signup-btn:hover {
+  background: #942222;
+}
+
+.signup-footer {
+  text-align: center;
+  margin-top: 1.2rem;
+  font-size: 1.15rem;
+  color: #222;
+}
+
+.signup-link {
+  color: #942222;
+  text-decoration: none;
+  font-weight: 700;
+  margin-left: 3px;
+  transition: color 0.2s;
+}
+
+.signup-link:hover {
+  color: #942222;
+}
