@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+.pickup-main-container {
+  display: flex;
+  background-color: #fbf7f7;
+  min-height: 100vh;
+}
+
+.pickup-table-container {
+  flex: 1;
+  background-color: white;
+  box-shadow: 0 4px 20px rgba(183, 16, 29, 0.1);
+  display: flex;
+  flex-direction: column;
+  margin-left: 250px; 
+}
+
+.pickup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #8b0000;
+  color: white;
+  height: 60px;
+  padding: 0 20px;
+  margin-bottom: 20px;
+  user-select: none;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  padding: 8px 16px;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  font-size: 14px;
+  min-width: 250px;
+  outline: none;
+  background-color: white;
+  color: #333;
+  transition: border-color 0.3s ease;
+}
+
+.search-input::placeholder {
+  color: #999;
+}
+
+.search-input:focus {
+  border-color: #ffc0c0;
+}
+
+.pickup-request-bar {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  margin-bottom: 16px;
+}
+
+.pickup-request-bar p {
+  font-size: 20px;
+  font-weight: 600;
+  color: #7d1215;
+  margin: 0;
+  user-select: none;
+  align-items: flex-start;
+}
+
+.pickup-section {
+  flex: 1;
+  overflow-x: auto;
+}
+
+.pickup-table {
+  width: 99%;
+  border-collapse: collapse;
+  border-radius: 6px;
+  border: 2px solid #e9d3d3;
+  margin-left: 5px;
+  user-select: none;
+}
+
+.pickup-table thead th {
+  color: #8b0000;
+  font-weight: bold;
+  padding: 12px;
+  text-align: center;
+  border-bottom: 2px solid #b7101d;
+}
+
+.pickup-table tbody td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #f1e3e3;
+}
+
+.pickup-table tbody tr.even-row {
+  background-color: #fdf3f3;
+}
+
+.pickup-table tbody tr.odd-row {
+  background-color: #fff;
+}
+
+.pickup-table tbody tr:hover {
+  box-shadow: 0 10px 16px rgba(183, 16, 29, 0.1);
+  transform: translateY(-3px);
+  background-color: #fff5f5;
+  cursor: pointer;
+  z-index: 1;
+  position: relative;
+}
+
+.pickup-table tbody tr.selected-row {
+  border: 2px solid #b7101d;
+  box-shadow: 0 0 6px rgba(183, 16, 29, 0.4);
+  background-color: #fff0f0;
+  position: relative;
+  z-index: 2;
+  transition: box-shadow 0.5s ease;
+}
+
+.no-data-cell {
+  padding: 20px;
+  font-style: italic;
+  color: #999;
+}
+
+.material-btn {
+  background-color: #7d1215;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  user-select: none;
+}
+
+.material-btn:hover,
+.material-btn:focus {
+  background-color: #d33c41;
+  outline: none;
+}
+
+.cancel-btn {
+  background-color: #6c757d;
+}
+
+.cancel-btn:hover,
+.cancel-btn:focus {
+  background-color: #5a6268;
+  outline: none;
+}
+
+.edit-btn {
+  background-color: #DA6304;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 8px;
+}
+
+.edit-btn:hover,
+.edit-btn:focus {
+  background-color: #d33c41;
+  outline: none;
+}
+
+.delete-btn {
+  background-color: #7d1215;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover,
+.delete-btn:focus {
+  background-color: #d33c41;
+  outline: none;
+}
+.edit-input {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1.5px solid #b7101d;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.add-material-btn-wrapper {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+}
+
+.add-material-btn {
+  background-color: #7d1215;
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(183, 16, 29, 0.3);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  user-select: none;
+}
+
+.add-material-btn:hover,
+.add-material-btn:focus {
+  background-color: #d33c41;
+  box-shadow: 0 6px 12px rgba(211, 60, 65, 0.6);
+  outline: none;
+}
+
+.add-material-form {
+  margin-top: 20px;
+  max-width: 700px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.add-input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1.5px solid #b7101d;
+  font-size: 14px;
+  flex: 1;
+  box-sizing: border-box;
+  margin-left: 7px;
+}
+
+.price-input {
+  width: 150px;
+}
+
+.loading,
+.error {
+  margin: 20px;
+  font-weight: 600;
+  text-align: center;
+  user-select: none;
+}
