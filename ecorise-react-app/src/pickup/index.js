@@ -20,11 +20,7 @@ function PickupTable({ onMaterialClick }) {
     setLocalPickups(allPickups);
   }, [allPickups]);
 
- useEffect(() => {
-  console.log("Pickups from hook:", allPickups);
-  console.log("Loading:", loading);
-  console.log("Error:", error);
-}, [allPickups, loading, error]);
+ 
 
   const toggleStatus = (id) => {
     setLocalPickups((prev) =>
