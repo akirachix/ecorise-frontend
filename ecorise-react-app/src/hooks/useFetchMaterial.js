@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetchMaterialsInfo, createMaterial,updateMaterial,deleteMaterial } from "../utils/fetchMaterials";
 
-function useMaterialFetch() {
+function useFetchMaterial() {
   const [materials, setMaterials] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -85,4 +85,4 @@ function useMaterialFetch() {
   };
 }
 
-export default useMaterialFetch;
+export default useFetchMaterial;
