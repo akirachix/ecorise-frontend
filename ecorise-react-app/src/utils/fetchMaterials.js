@@ -1,7 +1,7 @@
-const baseUrl = process.env.REACT_APP_BASE_URL?.replace(/\/$/, "");
+const materialsApi = process.env.REACT_APP_BASE_URL?.replace(/\/$/, "");
 export const fetchMaterialsInfo = async () => {
   try {
-    const response = await fetch(`${baseUrl}/api/material/`);
+    const response = await fetch(`${ materialsApi}/api/material/`);
     if (!response.ok) {
       throw new Error(`Something went wrong: ${response.status} ${response.statusText}`);
     }
@@ -16,7 +16,7 @@ export const fetchMaterialsInfo = async () => {
 
 export const createMaterial = async (materialData) => {
   try {
-    const response = await fetch(`${baseUrl}/api/material/`, {
+    const response = await fetch(`${ materialsApi}/api/material/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -36,7 +36,7 @@ export const createMaterial = async (materialData) => {
 
 export const updateMaterial = async (materialId, updatedData) => {
   try {
-    const response = await fetch(`${baseUrl}/api/material/${materialId}/`, {
+    const response = await fetch(`${materialsApi}/api/material/${materialId}/`, {
       method: "PUT", 
       headers: {
         "Content-Type": "application/json"
@@ -56,7 +56,7 @@ export const updateMaterial = async (materialId, updatedData) => {
 
 export const deleteMaterial = async (materialId) => {
   try {
-    const response = await fetch(`${baseUrl}/api/material/${materialId}/`, {
+    const response = await fetch(`${materialsApi}/api/material/${materialId}/`, {
       method: "DELETE",
     });
     if (!response.ok) {

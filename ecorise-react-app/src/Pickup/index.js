@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import Sidebar from "../shared-components/sidebar";
+import Sidebar from "../shared-components/sidebar/index.js";
 import useFetchDashboardData from "../hooks/useFetchPickupData.js";
 import { useNavigate } from "react-router-dom";
 import "./index.css";

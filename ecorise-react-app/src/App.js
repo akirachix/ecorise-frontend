@@ -1,17 +1,20 @@
-// import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import SignupForm from './Signup';
+import PickupTable from './Pickup';
+import MaterialTable from './Material';
 
 
-import Navigation from "./pages/shared-folder/Navigation/Sidebar"
 
 function App() {
   return (
-    <Router>
+    <Router future={{ v7_relativeSplatPath: true }}>
       <Routes>
-       
-        <Route path="/navigation" element={<Navigation />} />
         
+       
+          <Route path="signup" element={<SignupForm />} />
+          <Route path="/pickup" element={<PickupTable />} />
+          <Route path="material" element={<MaterialTable />} />
        
       </Routes>
     </Router>

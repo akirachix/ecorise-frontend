@@ -1,8 +1,8 @@
-const baseUrl = process.env.REACT_APP_BASE_URL?.replace(/\/$/, "");
+const usersApi = process.env.REACT_APP_BASE_URL?.replace(/\/$/, "");
 
 export const fetchUsersInfo = async () => {
   try {
-    const response = await fetch(`${baseUrl}/api/users/`);
+    const response = await fetch(`${usersApi}/api/users/`);
     if (!response.ok) {
       throw new Error(`Something went wrong: ${response.status} ${response.statusText}`);
     }
@@ -15,7 +15,7 @@ export const fetchUsersInfo = async () => {
 
 export const signupUser = async (userData) => {
   try {
-    const response = await fetch(`${baseUrl}/api/users/`, {
+    const response = await fetch(`${usersApi}/api/users/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

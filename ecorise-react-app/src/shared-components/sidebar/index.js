@@ -1,6 +1,7 @@
 import React from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import { FaHome, FaTruck, FaList, FaCreditCard, FaComments, FaCog, FaSignOutAlt } from 'react-icons/fa';
-import './Sidebar.css';
+import './style.css';
 
 const Sidebar = () => {
   return (
