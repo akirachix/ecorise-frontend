@@ -1,50 +1,23 @@
 
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState } from 'react';
 import SignupForm from './Signup';
 import PickupTable from './Pickup';
 import MaterialTable from './Material';
-
-
-
-function App() {
-  return (
-    <Router future={{ v7_relativeSplatPath: true }}>
-      <Routes>
-        
-       
-          <Route path="/signup" element={<SignupForm />} />
-          <Route path="/pickup" element={<PickupTable />} />
-          <Route path="/material" element={<MaterialTable />} />
-       
-      </Routes>
-    </Router>
-
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Dashboard from './Dashboard';
-
-
-
-import './App.css';
-import React, { useState } from 'react';
-
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Sidebar from './shared-component/SideBar';
 import PaymentForm from './Payment';
 import Rewards from './Reward'
 import Teaser from './Teaser';
 import Feedback from './Feedback'
+import Dashboard from './Dashboard';
 
 function App() {
-  return (
+   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
 
-    <Routes>
-      <Route path="/" element={<Dashboard />} />
-    </Routes>
-
-  );
-}
+  return (      
     <Router>
       <div style={{ display: 'flex' }}>
         <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
@@ -55,14 +28,15 @@ function App() {
             <Route path="/reward" element={<Rewards />} />
             <Route path="/teaser" element={<Teaser />} />
             <Route path='/feedback' element={<Feedback />} />  
+            <Route path="/signup" element={<SignupForm />} />
+            <Route path="/pickup" element={<PickupTable />} />
+            <Route path="/material" element={<MaterialTable />} />
+            <Route path="/" element={<Dashboard />} />
             {}
           </Routes>
         </div>
       </div>
     </Router>
   )};
-
-
-
 
 export default App;
