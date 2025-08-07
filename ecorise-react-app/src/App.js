@@ -11,6 +11,8 @@ import Rewards from './Reward'
 import Teaser from './Teaser';
 import Feedback from './Feedback'
 import Dashboard from './Dashboard';
+import LoginScreen from './Login';
+
 
 function App() {
    const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -22,7 +24,8 @@ function App() {
       <div style={{ display: 'flex' }}>
         <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
 
-        <div style={{ flex: 1, padding: '20px' }}>
+
+       <div style={{ flex: 1, padding: '20px' }}>
           <Routes>
             <Route path="/payment" element={<PaymentForm />} />
             <Route path="/reward" element={<Rewards />} />
@@ -32,11 +35,13 @@ function App() {
             <Route path="/pickup" element={<PickupTable />} />
             <Route path="/material" element={<MaterialTable />} />
             <Route path="/" element={<Dashboard />} />
+            <Route path="/login" element={<LoginScreen/>} />
             {}
           </Routes>
         </div>
       </div>
     </Router>
   )};
+
 
 export default App;
