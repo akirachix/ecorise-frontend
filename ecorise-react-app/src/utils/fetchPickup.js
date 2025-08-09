@@ -1,8 +1,8 @@
-const pickupApi = process.env.REACT_APP_BASE_URL?.replace(/\/$/, "");
+const pickupApi = process.env.REACT_APP_BASE_URL;
 
 export const fetchPickupInfo = async () => {
   try {
-    const response = await fetch(`${pickupApi}/api/pickups/`);
+    const response = await fetch(`${pickupApi}/pickups`);
     if (!response.ok) {
       throw new Error(`Something went wrong: ${response.status} ${response.statusText}`);
     }

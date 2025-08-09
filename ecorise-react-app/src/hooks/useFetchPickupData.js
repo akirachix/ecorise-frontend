@@ -3,7 +3,6 @@ import { fetchPickupInfo } from "../utils/fetchPickup";
 import {fetchUsersInfo} from "../utils/fetchUserprofiles";
 import {fetchMaterialsInfo} from "../utils/fetchMaterials";
 
-
 function useFetchDashboardData() {
   const [pickups, setPickups] = useState([]);
   const [loading, setLoading] = useState(true);

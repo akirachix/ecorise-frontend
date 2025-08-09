@@ -3,17 +3,23 @@
 body {
   font-family: 'Poppins', sans-serif;
 }
+.sidebar {
+  width: 220px;
+  min-width: 220px;
+  max-width: 220px;
+  background: #8B0000;
+  height: 100vh;
+  flex-shrink: 0;
+}
+
 
 .pickup-main-container {
   display: flex;
   background-color: #FBF7F7;
   min-height: 100vh;
-}
-
-.sidebar {
-  width: 250px;
-  min-width: 250px;
-
+  flex-shrink: 1;
+  
+ 
 }
 
 .pickup-table-container {
@@ -22,7 +28,9 @@ body {
   box-shadow: 0 4px 20px rgba(183, 16, 29, 0.1);
   display: flex;
   flex-direction: column;
-  margin-left: 250px;   
+  margin-left: 200px; 
+  position: relative; 
+  width: 100%;
 }
 
 .pickup-header {
@@ -35,7 +43,7 @@ body {
   margin: 0;           
   padding: 0 20px;     
   border-radius: 0;    
-  width: 100%;         
+  width: 1590px;         
   box-sizing: border-box;
   margin-bottom: 20px;  
 }
@@ -83,7 +91,7 @@ body {
   font-size: 20px;
   font-weight: 600;
   color: #7d1215;
-  margin: 0;
+  
 }
 
 .material-btn {
@@ -300,4 +308,89 @@ body {
 .pending-count {
   color: #EA5757;
   font-weight: 700;
+}
+
+
+@media (max-width: 1366px) {
+  .pickup-table-container {
+    margin-left: 200px;   
+    max-width: 1165px;    
+  }
+  .pickup-header {
+    width: 100%;         
+    padding: 0 10px;
+  }
+  .search-input {
+    min-width: 180px;     
+  }
+  .pickup-request-bar p {
+    margin-left: 38%;
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .pickup-header{
+     margin-left: -39px;
+  }
+  .pickup-table-container {
+    width: 1000px;
+    margin-left: 100px;
+  
+  }
+  .pickup-section{
+    width: 1050px;
+  }
+ .pickup-request-bar p {
+ 
+    font-size: 20px;
+    align-items: center;
+  }
+  .search-input {
+    min-width: 150px;
+  }
+  .pickup-table thead th,
+  .pickup-table tbody td {
+    padding: 8px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .pickup-main-container {
+    flex-direction: column;
+  }
+  .pickup-table-container {
+    margin-left: 220px;
+    width: 100%;
+    box-shadow: none;
+    min-width: 570px;
+  }
+  .pickup-header {
+    width: 104%;
+    padding: 0 10px;
+    margin-left: -10px;
+  }
+  .pickup-request-bar p {
+    margin-left: 37%;
+    font-size: 20px;
+    text-align: center;
+  }
+  .search-container {
+    justify-content: center;
+  }
+  .search-input {
+    min-width: 140px;
+    width: 80%;
+    max-width: 250px;
+  }
+  .pickup-table {
+    width: 100%;
+    margin-left: 0;
+    font-size: 12px;
+  }
+  .pickup-table thead th,
+  .pickup-table tbody td {
+    padding: 6px;
+  }
 }

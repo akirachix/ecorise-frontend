@@ -2,8 +2,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useFeedback } from '../hooks/useFetchFeedback';
 import './style.css';
-
-
 const columns = [
  { label: 'Feedback ID', key: 'feedback_id' },
  { label: 'User Type', key: 'user_type' },
@@ -41,6 +39,7 @@ function Feedback() {
 
  return (
    <div className="main-content">
+
      <h1 className="feedback-title">Feedback</h1>
 
 
