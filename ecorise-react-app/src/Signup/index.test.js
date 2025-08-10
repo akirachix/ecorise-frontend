@@ -1,8 +1,10 @@
+import '@testing-library/jest-dom';
+import React from "react";
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import SignUp from "./index";
-import * as api from '../utils/fetchUserprofiles';
+import * as api from '../utils/signupUser'; 
 
-jest.mock('../utils/fetchUserprofiles');
+jest.mock('../utils/signupUser'); 
 
 describe("SignUp component", () => {
   beforeEach(() => {
@@ -39,8 +41,7 @@ describe("SignUp component", () => {
   });
 
   test("successful form submission calls signupUser and resets form", async () => {
-    api.signupUser.mockResolvedValueOnce();
-
+    api.signupUser.mockResolvedValueOnce(); 
     render(<SignUp />);
 
     fireEvent.change(screen.getByPlaceholderText("Username"), { target: { value: 'user1' } });
@@ -66,7 +67,7 @@ describe("SignUp component", () => {
 
   test("failed signup displays error message", async () => {
     const errorMessage = "Signup failed due to server error";
-    api.signupUser.mockRejectedValueOnce(new Error(errorMessage));
+    api.signupUser.mockRejectedValueOnce(new Error(errorMessage)); 
 
     render(<SignUp />);
 

@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetchPickupInfo } from "../utils/fetchPickup";
 import {fetchUsersInfo} from "../utils/fetchUserprofiles";
-import {fetchMaterialsInfo} from "../utils/fetchMaterials";
-
+import {fetchMaterialsInfo} from "../utils/fetchMaterialsInfo";
 
 function useFetchDashboardData() {
   const [pickups, setPickups] = useState([]);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './index.css';
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaPhone } from "react-icons/fa";
-import { signupUser } from '../utils/fetchUserprofiles';
+import { signupUser } from '../utils/signupUser';
 
 function SignUp() {
   const [form, setForm] = useState({

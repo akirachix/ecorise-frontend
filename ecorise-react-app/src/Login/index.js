@@ -81,7 +81,7 @@ const LoginScreen = () => {
           </button>
           <div className="login-links">
             <div className="signup-question">
-              Don't have an account? <a href="#" className="signup-link">Sign Up</a>
+              Don't have an account? <a href="/signup" className="signup-link">Sign Up</a>
             </div>
           </div>
         </form>

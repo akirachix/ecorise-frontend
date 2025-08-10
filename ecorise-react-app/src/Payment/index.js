@@ -2,8 +2,6 @@
 import React, { useState } from 'react';
 import { useStkPush } from '../hooks/useStkPush';
 import './style.css';
-
-
 const PaymentForm = () => {
   
   const [form, setForm] = useState({
@@ -28,9 +26,8 @@ const PaymentForm = () => {
   };
 
  return (
-
+  
   <div className="payment-form-container">
-   
     <form onSubmit={handleSubmit} className="payment-form">
       <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Ecorise Payment Platform</h1>
 

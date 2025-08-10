@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import Sidebar from "../shared-components/sidebar";
-import useFetchMaterial from "../hooks/useFetchMaterial"
+import useFetchMaterial from "../hooks/useFetchMaterialsInfo"
 import "./index.css";
 
 function MaterialPricing() {
@@ -88,7 +87,7 @@ function MaterialPricing() {
 
   return (
     <div className="pickup-main-container">
-      <Sidebar />
+      
       <div className="pickup-table-container">
         <header className="pickup-header">
           <div className="title">ECORISE</div>

@@ -1,72 +1,122 @@
+import '@testing-library/jest-dom';
 import React from 'react';
-import {render, screen, fireEvent} from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import LoginScreen from './index';
 import { BrowserRouter } from 'react-router-dom';
-import LoginScreen from "./index";
-import * as api from '../utils/fetchEcoriseApi';
-const mockedNavigate = jest.fn();
+
+const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockedNavigate,
+  useNavigate: () => mockNavigate,
 }));
+
+
+const mockUseUsers = jest.fn(() => ({
+  data: [
+    { email: 'user@example.com', password: 'password123' }
+  ],
+  loading: false,
+  error: null,
+}));
+
+jest.mock('../hooks/useFetchUser', () => ({
+  useUsers: () => mockUseUsers(),
+}));
+
 describe('LoginScreen component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    
+    mockUseUsers.mockImplementation(() => ({
+      data: [
+        { email: 'user@example.com', password: 'password123' }
+      ],
+      loading: false,
+      error: null,
+    }));
   });
-  test('renders login form inputs and button', () => {
+
+  test('renders email and password inputs and login button', () => {
     render(
-      <BrowserRouter>
+      <BrowserRouter future={{v7_relativeSplatPath: true, v7_startTransition:true}}>
         <LoginScreen />
       </BrowserRouter>
     );
+
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
   });
-  test('toggles password visibility when icon clicked', () => {
+
+  test('toggles password visibility when toggle icon clicked', () => {
     render(
-      <BrowserRouter>
+      <BrowserRouter future={{v7_relativeSplatPath: true, v7_startTransition:true}}>
         <LoginScreen />
       </BrowserRouter>
     );
+
     const passwordInput = screen.getByLabelText(/password/i);
-    const toggleIcon = screen.getByRole('button', { hidden: true }) || screen.getByText((content, element) => element.classList.contains('toggle-icon'));
     expect(passwordInput.type).toBe('password');
-    fireEvent.click(screen.getByText((content, element) => element.classList.contains('toggle-icon')));
+
+    fireEvent.click(
+      screen.getByText((content, element) => element.classList?.contains('toggle-icon'))
+    );
     expect(screen.getByLabelText(/password/i).type).toBe('text');
-    fireEvent.click(screen.getByText((content, element) => element.classList.contains('toggle-icon')));
+
+    fireEvent.click(
+      screen.getByText((content, element) => element.classList?.contains('toggle-icon'))
+    );
     expect(screen.getByLabelText(/password/i).type).toBe('password');
   });
+
   test('shows error message on invalid login credentials', async () => {
-    jest.spyOn(api, 'fetchUsers').mockResolvedValue([
-      { email: 'existing@example.com', password: 'correctpassword' },
-    ]);
     render(
-      <BrowserRouter>
+      <BrowserRouter future={{v7_relativeSplatPath: true, v7_startTransition:true}}>
         <LoginScreen />
       </BrowserRouter>
     );
+
     fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'wrong@example.com' } });
     fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'wrongpassword' } });
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText(/invalid email or password/i)).toBeInTheDocument();
+    });
   });
-  test('navigates to dashboard upon successful login', async () => {
-    const user = { email: 'user@example.com', password: 'secret123' };
-    jest.spyOn(api, 'fetchUsers').mockResolvedValue([user]);
+
+  test('navigates to /dashboard on successful login', async () => {
     render(
-      <BrowserRouter>
+      <BrowserRouter future={{v7_relativeSplatPath: true, v7_startTransition:true}}>
         <LoginScreen />
       </BrowserRouter>
     );
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: user.email } });
-    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: user.password } });
+
+    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'user@example.com' } });
+    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'password123' } });
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
+
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith('/dashboard');
+    });
   });
-  test('shows error message when fetchUsers throws', async () => {
-    jest.spyOn(api, 'fetchUsers').mockRejectedValue(new Error('API failure'));
+
+
+  test('shows hook error message if error present', () => {
+   
+    mockUseUsers.mockImplementationOnce(() => ({
+      data: [],
+      loading: false,
+      error: 'Error occurred',
+    }));
+
     render(
-      <BrowserRouter>
+      <BrowserRouter future={{v7_relativeSplatPath: true, v7_startTransition:true}}>
         <LoginScreen />
       </BrowserRouter>
     );
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'any@example.com' } });
-    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'any' } });
+
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
+    expect(screen.getByText(/error loading/i)).toBeInTheDocument();
   });
 });

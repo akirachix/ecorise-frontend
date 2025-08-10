@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
-import Sidebar from "../shared-components/sidebar/index.js";
-import useFetchDashboardData from "../hooks/useFetchPickupData.js";
+import useFetchPickups from "../hooks/useFetchPickupData";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 
 const ROW_OPTIONS = [5, 10, 15, "All"];
 
 function PickupTable({ onMaterialClick }) {
-  const { pickups: allPickups, loading, error } = useFetchDashboardData();
+  const { pickups: allPickups, loading, error } = useFetchPickups();
   const navigate = useNavigate();
 
   const [localPickups, setLocalPickups] = useState([]);
@@ -100,7 +99,7 @@ function PickupTable({ onMaterialClick }) {
 
   return (
     <div className="pickup-main-container">
-      <Sidebar />
+
       <div className="pickup-table-container">
         <header className="pickup-header">
           <div className="title">ECORISE</div>
