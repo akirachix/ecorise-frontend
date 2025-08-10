@@ -19,6 +19,8 @@ function AppContent() {
   const hideSidebar = noSidebarRoutes.includes(location.pathname);
 
   return (
+     
+
     <div style={{ display: 'flex' }}>
       {!hideSidebar && <Sidebar />}
       <div

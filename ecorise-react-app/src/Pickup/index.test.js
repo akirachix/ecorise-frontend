@@ -1,8 +1,13 @@
+
+import '@testing-library/jest-dom';
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import PickupTable from "./index";
 
-jest.mock("../shared-components/sidebar", () => () => <div>SidebarMock</div>);
+jest.mock("../shared-component/SideBar", () => ({
+  __esModule: true,
+  default: () => <div>SidebarMock</div>,
+}));
 
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
@@ -10,8 +15,8 @@ jest.mock("react-router-dom", () => ({
   useNavigate: () => mockNavigate,
 }));
 
-const mockUseFetchDashboardData = jest.fn();
-jest.mock("./hooks/useFetchPickupData", () => () => mockUseFetchDashboardData());
+const mockUseFetchPickups = jest.fn();
+jest.mock("../hooks/useFetchPickupData", () => () => mockUseFetchPickups());
 
 const samplePickups = [
   {
@@ -40,33 +45,34 @@ describe("PickupTable component", () => {
   });
 
   test("renders loading state", () => {
-    mockUseFetchDashboardData.mockReturnValue({ pickups: [], loading: true, error: null });
+    mockUseFetchPickups.mockReturnValue({ pickups: [], loading: true, error: null });
     render(<PickupTable />);
     expect(screen.getByText(/loading/i)).toBeInTheDocument();
   });
 
   test("renders error state", () => {
-    mockUseFetchDashboardData.mockReturnValue({ pickups: [], loading: false, error: "Failed to load" });
+    mockUseFetchPickups.mockReturnValue({ pickups: [], loading: false, error: "Failed to load" });
     render(<PickupTable />);
     expect(screen.getByText(/error: failed to load/i)).toBeInTheDocument();
   });
 
   test("renders no data message when pickups empty", () => {
-    mockUseFetchDashboardData.mockReturnValue({ pickups: [], loading: false, error: null });
+    mockUseFetchPickups.mockReturnValue({ pickups: [], loading: false, error: null });
     render(<PickupTable />);
     expect(screen.getByText(/no pickup requests found/i)).toBeInTheDocument();
   });
 
   test("renders pickups data in table", () => {
-    mockUseFetchDashboardData.mockReturnValue({ pickups: samplePickups, loading: false, error: null });
+    mockUseFetchPickups.mockReturnValue({ pickups: samplePickups, loading: false, error: null });
     render(<PickupTable />);
     expect(screen.getByText("Alice")).toBeInTheDocument();
     expect(screen.getByText("Bob")).toBeInTheDocument();
-    expect(screen.getAllByRole("row").length).toBeGreaterThan(2);
+    
+    expect(screen.getAllByRole("row").length).toBeGreaterThanOrEqual(3);
   });
 
   test("search filters pickups by name", () => {
-    mockUseFetchDashboardData.mockReturnValue({ pickups: samplePickups, loading: false, error: null });
+    mockUseFetchPickups.mockReturnValue({ pickups: samplePickups, loading: false, error: null });
     render(<PickupTable />);
     const input = screen.getByPlaceholderText(/search/i);
     fireEvent.change(input, { target: { value: "Alice" } });
@@ -84,17 +90,22 @@ describe("PickupTable component", () => {
       createdAt: "2023-01-01T00:00:00Z",
       status: "Pending",
     }));
-    mockUseFetchDashboardData.mockReturnValue({ pickups: manyPickups, loading: false, error: null });
+    mockUseFetchPickups.mockReturnValue({ pickups: manyPickups, loading: false, error: null });
     render(<PickupTable />);
-    expect(screen.getAllByRole("row").length).toBe(6);
+
+    expect(screen.getAllByRole("row").length).toBe(6); 
+
     fireEvent.change(screen.getByLabelText(/rows per page/i), { target: { value: "10" } });
+    
     expect(screen.getAllByRole("row").length).toBe(11);
+
     fireEvent.change(screen.getByLabelText(/rows per page/i), { target: { value: "All" } });
+    
     expect(screen.getAllByRole("row").length).toBe(13);
   });
 
   test("toggles status when status button clicked", () => {
-    mockUseFetchDashboardData.mockReturnValue({ pickups: samplePickups, loading: false, error: null });
+    mockUseFetchPickups.mockReturnValue({ pickups: samplePickups, loading: false, error: null });
     render(<PickupTable />);
     const statusButton = screen.getAllByRole("button", { name: "Pending" })[0];
     fireEvent.click(statusButton);
@@ -104,7 +115,7 @@ describe("PickupTable component", () => {
   });
 
   test("selects and highlights row on clicking", () => {
-    mockUseFetchDashboardData.mockReturnValue({ pickups: samplePickups, loading: false, error: null });
+    mockUseFetchPickups.mockReturnValue({ pickups: samplePickups, loading: false, error: null });
     render(<PickupTable />);
     const rowAlice = screen.getByText("Alice").closest("tr");
     fireEvent.click(rowAlice);

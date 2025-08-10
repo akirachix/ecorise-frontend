@@ -1,9 +1,12 @@
+
+import '@testing-library/jest-dom';
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import MaterialPricing from "./index";
-import useMaterialFetch from "./hooks/useMaterialFetch";
+import useMaterialFetch from "../hooks/useFetchMaterialsInfo"; 
 
-jest.mock("./hooks/useMaterialFetch");
+jest.mock("../hooks/useFetchMaterialsInfo"); 
+
 const mockMaterials = [
   {
     material_id: 1,
@@ -18,6 +21,7 @@ const mockMaterials = [
     created_at: new Date().toISOString(),
   },
 ];
+
 describe("MaterialPricing Component", () => {
   beforeEach(() => {
     useMaterialFetch.mockReturnValue({
@@ -29,11 +33,13 @@ describe("MaterialPricing Component", () => {
       addMaterial: jest.fn(() => Promise.resolve()),
     });
   });
+
   test("renders materials in table", () => {
     render(<MaterialPricing />);
     expect(screen.getByText("Plastic")).toBeInTheDocument();
     expect(screen.getByText("Metal")).toBeInTheDocument();
   });
+
   test("filters materials by search term", () => {
     render(<MaterialPricing />);
     fireEvent.change(screen.getByPlaceholderText("Search..."), {
@@ -42,6 +48,7 @@ describe("MaterialPricing Component", () => {
     expect(screen.queryByText("Plastic")).not.toBeInTheDocument();
     expect(screen.getByText("Metal")).toBeInTheDocument();
   });
+
   test("shows add form and adds a material", async () => {
     render(<MaterialPricing />);
     fireEvent.click(screen.getByText("+ Add New Material"));
@@ -59,13 +66,17 @@ describe("MaterialPricing Component", () => {
       });
     });
   });
+
   test("handles empty input in add form", () => {
     window.alert = jest.fn();
     render(<MaterialPricing />);
     fireEvent.click(screen.getByText("+ Add New Material"));
     fireEvent.click(screen.getByText("Add"));
-    expect(window.alert).toHaveBeenCalledWith("Please fill all fields to add new material");
+    expect(window.alert).toHaveBeenCalledWith(
+      "Please fill all fields to add new material"
+    );
   });
+
   test("enters and saves edit mode", async () => {
     render(<MaterialPricing />);
     fireEvent.click(screen.getAllByText("Edit")[0]);
@@ -80,6 +91,7 @@ describe("MaterialPricing Component", () => {
       });
     });
   });
+
   test("deletes a material after confirmation", async () => {
     window.confirm = jest.fn(() => true);
     render(<MaterialPricing />);
