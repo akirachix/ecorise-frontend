@@ -89,7 +89,7 @@ function PickupTable({ onMaterialClick }) {
     if (confirmed) {
      
       setPaidPickups((prev) => new Set(prev).add(pickupId));    
-      navigate(`/payment/${pickupId}`);
+      navigate(`/payment`);
     }
   };
 

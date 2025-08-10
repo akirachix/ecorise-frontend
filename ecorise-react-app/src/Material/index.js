@@ -2,15 +2,83 @@ import React, { useState } from "react";
 import useFetchMaterial from "../hooks/useFetchMaterialsInfo"
 import "./index.css";
 
+function Modal({ open, onClose, children }) {
+  if (!open) return null;
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <button onClick={onClose} className="modal-close-button">×</button>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function AddMaterialModal({ open, onClose, onAdd }) {
+  const [type, setType] = useState("");
+  const [price, setPrice] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!type.trim() || !price.trim()) return;
+    setSubmitting(true);
+    await onAdd({ material_type: type, price_per_kg: price });
+    setType("");
+    setPrice("");
+    setSubmitting(false);
+    onClose();
+  };
+
+  return (
+    <Modal open={open} onClose={onClose}>
+      <h2 style={{
+        margin: 0, fontSize: 24, fontWeight: 700, color: "#7d1215", textAlign: "left", marginBottom: 16, fontFamily: "'Poppins', sans-serif"
+      }}>
+        Add New Material
+      </h2>
+      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 18, minWidth: 280 }}>
+        <input
+          type="text"
+          placeholder="Material Type"
+          value={type}
+          onChange={e => setType(e.target.value)}
+          style={{
+            padding: 10, borderRadius: 6, border: "1.5px solid #b7101d", fontSize: 16, fontFamily: "'Poppins', sans-serif"
+          }}
+          required
+        />
+        <input
+          type="number"
+          placeholder="Price per Kg"
+          value={price}
+          onChange={e => setPrice(e.target.value)}
+          min={0}
+          step={0.01}
+          style={{
+            padding: 10, borderRadius: 6, border: "1.5px solid #b7101d", fontSize: 16, fontFamily: "'Poppins', sans-serif"
+          }}
+          required
+        />
+        <button
+          type="submit"
+          disabled={submitting}
+          style={{
+            background: "#7d1215", color: "#fff", border: "none", borderRadius: 6, padding: "12px 0", fontWeight: 700, fontSize: 16, cursor: submitting ? "not-allowed" : "pointer", fontFamily: "'Poppins', sans-serif"
+          }}
+        >
+          Add
+        </button>
+      </form>
+    </Modal>
+  );
+}
+
 function MaterialPricing() {
   const { materials, loading, error, editMaterial, removeMaterial, addMaterial } = useFetchMaterial();
-
   const [editingId, setEditingId] = useState(null);
   const [editValues, setEditValues] = useState({ material_type: "", price_per_kg: "" });
-
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [newMaterial, setNewMaterial] = useState({ material_type: "", price_per_kg: "" });
-  
+  const [showAddModal, setShowAddModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
   const startEdit = (mat) => {
@@ -24,10 +92,7 @@ function MaterialPricing() {
   };
 
   const saveEdit = async (id) => {
-    if (!editValues.material_type.trim() || !editValues.price_per_kg.toString().trim()) {
-      alert("Please fill all fields");
-      return;
-    }
+    if (!editValues.material_type.trim() || !editValues.price_per_kg.toString().trim()) return;
     try {
       await editMaterial(id, {
         material_type: editValues.material_type.trim(),
@@ -49,18 +114,13 @@ function MaterialPricing() {
     }
   };
 
-  const handleAddMaterial = async () => {
-    if (!newMaterial.material_type.trim() || !newMaterial.price_per_kg.toString().trim()) {
-      alert("Please fill all fields to add new material");
-      return;
-    }
+  const handleAddMaterial = async ({ material_type, price_per_kg }) => {
+    if (!material_type.trim() || !price_per_kg.toString().trim()) return;
     try {
       await addMaterial({
-        material_type: newMaterial.material_type.trim(),
-        price_per_kg: newMaterial.price_per_kg.trim(),
+        material_type: material_type.trim(),
+        price_per_kg: price_per_kg.trim(),
       });
-      setNewMaterial({ material_type: "", price_per_kg: "" });
-      setShowAddForm(false);
     } catch (err) {
       alert("Failed to add material: " + err.message);
     }
@@ -68,18 +128,14 @@ function MaterialPricing() {
 
   const filteredMaterials = materials.filter((mat) => {
     const lowerTerm = searchTerm.toLowerCase();
-
     const createdAtStr = mat.created_at ? new Date(mat.created_at).toLocaleString() : "";
-
     return (
       mat.material_type.toLowerCase().includes(lowerTerm) ||
       mat.price_per_kg.toString().toLowerCase().includes(lowerTerm) ||
       createdAtStr.toLowerCase().includes(lowerTerm) ||
-
       (mat.material_id?.toString().toLowerCase().includes(lowerTerm) ?? false)
     );
   });
-
 
   const sortedMaterials = [...filteredMaterials].sort(
     (a, b) => Number(a.material_id) - Number(b.material_id)
@@ -87,12 +143,9 @@ function MaterialPricing() {
 
   return (
     <div className="pickup-main-container">
-      
       <div className="pickup-table-container">
         <header className="pickup-header">
           <div className="title">ECORISE</div>
-
-
           <div className="search-container">
             <input
               className="search-input"
@@ -105,15 +158,12 @@ function MaterialPricing() {
             />
           </div>
         </header>
-
         <div className="pickup-request-bar">
           <p>Material Pricing</p>
         </div>
-
         <section className="pickup-section">
           {loading && <div className="loading">Loading materials...</div>}
           {error && <div className="error">Error: {error}</div>}
-
           {!loading && !error && (
             <>
               <table className="pickup-table" aria-label="Material Pricing Table">
@@ -205,39 +255,12 @@ function MaterialPricing() {
                   )}
                 </tbody>
               </table>
-
-
               <div className="add-material-btn-wrapper">
-                <button className="add-material-btn" onClick={() => setShowAddForm((prev) => !prev)}>
+                <button className="add-material-btn" onClick={() => setShowAddModal(true)}>
                   + Add New Material
                 </button>
               </div>
-
-              {showAddForm && (
-                <div className="add-material-form">
-                  <input
-                    type="text"
-                    placeholder="Material Type"
-                    value={newMaterial.material_type}
-                    onChange={(e) => setNewMaterial((prev) => ({ ...prev, material_type: e.target.value }))}
-                    className="add-input"
-                    aria-label="New Material Type"
-                  />
-                  <input
-                    type="number"
-                    placeholder="Price per Kg"
-                    value={newMaterial.price_per_kg}
-                    onChange={(e) => setNewMaterial((prev) => ({ ...prev, price_per_kg: e.target.value }))}
-                    step="0.01"
-                    min="0"
-                    className="add-input price-input"
-                    aria-label="New Price per Kg"
-                  />
-                  <button className="material-btn add-submit-btn" onClick={handleAddMaterial}>
-                    Add
-                  </button>
-                </div>
-              )}
+              <AddMaterialModal open={showAddModal} onClose={() => setShowAddModal(false)} onAdd={handleAddMaterial} />
             </>
           )}
         </section>
