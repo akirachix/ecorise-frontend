@@ -248,8 +248,8 @@ body {
 
 .add-material-btn-wrapper {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  top: 80px;
+  right: 30px;
   z-index: 100;
 }
 
@@ -349,6 +349,12 @@ body {
     padding: 8px;
     font-size: 13px;
   }
+  .add-material-btn-wrapper {
+  position: fixed;
+  top: 75px;
+  right: 50px;
+  z-index: 100;
+}
 }
 
 @media (max-width: 1024px) {
