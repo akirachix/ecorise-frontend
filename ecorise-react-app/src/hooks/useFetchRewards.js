@@ -1,24 +1,26 @@
 import { useState, useEffect } from 'react';
-import { fetchRewards} from '../utils/fetchRewards';
+import { fetchRewards } from '../utils/fetchRewards';
 
-const API_URL = process.env.REACT_APP_BASE_URL;
-
-export function useRewards() {
+export const useRewards = () => {
   const [rewards, setRewards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchRewards(API_URL)
-      .then((data) => {
-        setRewards(data);
+    const getRewards = async () => {
+      try {
+        const result = await fetchRewards();
+        setRewards(Array.isArray(result) ? result : []);
+      } catch (err) {
+        console.error('Rewards fetch error:', err);
+        setError(err?.message || 'Failed to load rewards');
+        setRewards([]);
+      } finally {
         setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message || 'Error fetching rewards');
-        setLoading(false);
-      });
+      }
+    };
+    getRewards();
   }, []);
 
   return { rewards, loading, error };
-}
+};

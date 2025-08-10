@@ -1,17 +1,18 @@
 import { useState, useEffect } from "react";
-import { fetchMaterialsInfo, createMaterial,updateMaterial,deleteMaterial } from "../utils/fetchMaterials";
+import { fetchMaterialsInfo } from "../utils/fetchMaterialsInfo";
+import { createMaterial } from "../utils/createMaterial";
+import { updateMaterial } from "../utils/updateMaterial";
+import { deleteMaterial } from "../utils/deleteMaterial";
 
 function useFetchMaterial() {
   const [materials, setMaterials] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  
   useEffect(() => {
     loadMaterials();
   }, []);
 
- 
   const loadMaterials = async () => {
     setLoading(true);
     setError(null);
@@ -25,7 +26,6 @@ function useFetchMaterial() {
     }
   };
 
-  
   const addMaterial = async (materialData) => {
     setLoading(true);
     setError(null);
@@ -41,7 +41,6 @@ function useFetchMaterial() {
     }
   };
 
-  
   const editMaterial = async (materialId, updatedData) => {
     setLoading(true);
     setError(null);
@@ -58,7 +57,6 @@ function useFetchMaterial() {
       setLoading(false);
     }
   };
-
 
   const removeMaterial = async (materialId) => {
     setLoading(true);

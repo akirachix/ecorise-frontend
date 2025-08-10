@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useFetchMaterial from "../hooks/useFetchMaterial"
+import useFetchMaterial from "../hooks/useFetchMaterialsInfo"
 import "./index.css";
 
 function MaterialPricing() {
