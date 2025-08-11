@@ -450,3 +450,33 @@ body {
     z-index: 100;
   }
 }
+@media screen and (min-width: 1367px) and (max-width:1500px) {
+ .pickup-table-container {
+    margin-left: 200px;
+    max-width: 1185px;
+  }
+  .pickup-header {
+    width: 100%;
+    padding: 0 10px;
+  }
+  .search-input {
+    min-width: 180px;
+  }
+  .pickup-request-bar p {
+    margin-left: 38%;
+    font-size: 28px;
+  }
+   .add-material-btn-wrapper {
+  position: fixed;
+  top: 73px;
+  right: 126px;
+  z-index: 100;
+}
+.material-pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 80px;
+}
+
+}
