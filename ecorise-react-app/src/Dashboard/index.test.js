@@ -15,7 +15,7 @@ jest.mock('react-router-dom', () => {
 });
 
 
-import * as useUsers from '../hooks/useFetchUser';
+import * as useUsers from '../hooks/useFetchUsers';
 import * as usePickups from '../hooks/useFetchPickups';
 import * as useProducts from '../hooks/useFetchProducts';
 import * as usePayment from '../hooks/useFetchPayments';

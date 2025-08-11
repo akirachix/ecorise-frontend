@@ -1,4 +1,3 @@
-
 import '@testing-library/jest-dom';
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
@@ -67,14 +66,17 @@ describe("MaterialPricing Component", () => {
     });
   });
 
-  test("handles empty input in add form", () => {
-    window.alert = jest.fn();
+  test("handles empty input in add form", async () => {
+    const addMaterialMock = useMaterialFetch().addMaterial;
     render(<MaterialPricing />);
     fireEvent.click(screen.getByText("+ Add New Material"));
     fireEvent.click(screen.getByText("Add"));
-    expect(window.alert).toHaveBeenCalledWith(
-      "Please fill all fields to add new material"
-    );
+  
+    await waitFor(() => {
+      expect(addMaterialMock).not.toHaveBeenCalled();
+    });
+    
+    expect(screen.getByText("Add New Material")).toBeInTheDocument();
   });
 
   test("enters and saves edit mode", async () => {

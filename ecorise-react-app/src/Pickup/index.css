@@ -2,7 +2,9 @@
 
 body {
   font-family: 'Poppins', sans-serif;
+  width: 100%;
 }
+
 .sidebar {
   width: 220px;
   min-width: 220px;
@@ -12,14 +14,11 @@ body {
   flex-shrink: 0;
 }
 
-
 .pickup-main-container {
   display: flex;
   background-color: #FBF7F7;
   min-height: 100vh;
   flex-shrink: 1;
-  
- 
 }
 
 .pickup-table-container {
@@ -28,9 +27,10 @@ body {
   box-shadow: 0 4px 20px rgba(183, 16, 29, 0.1);
   display: flex;
   flex-direction: column;
-  margin-left: 200px; 
-  position: relative; 
+  margin-left: 200px;
+  position: relative;
   width: 100%;
+  height: 100vh;
 }
 
 .pickup-header {
@@ -40,12 +40,12 @@ body {
   background-color: #8B0000;
   color: white;
   height: 60px;
-  margin: 0;           
-  padding: 0 20px;     
-  border-radius: 0;    
-  width: 1590px;         
+  margin: 0;
+  padding: 0 20px;
+  border-radius: 0;
   box-sizing: border-box;
-  margin-bottom: 20px;  
+  margin-bottom: 0;
+  width: 100%;
 }
 
 .title {
@@ -87,16 +87,20 @@ body {
   border-color: #FFC0C0;
 }
 
+.pickup-request-bar {
+  background: white;
+}
+
 .pickup-request-bar p {
   font-size: 20px;
   font-weight: 600;
   color: #7d1215;
-  
+  margin: 0;
 }
 
 .material-btn {
-  margin-right:13px ;
-  background-color:#7d1215 ;
+  margin-right: 13px;
+  background-color: #7d1215;
   color: white;
   width: auto;
   border: none;
@@ -109,12 +113,100 @@ body {
 }
 
 .material-btn:hover {
-  background-color: #d33c41;
+  background-color: orange;
+}
+
+.material-pagination-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+  width: 100%;
+  background: white;
+  padding: 10px 0;
+  z-index: 1;
+  margin-left: 20px;
+}
+
+.material-pagination-bar > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.material-pagination-select {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  border: 1.5px solid #B7101D;
+  background: #fff;
+  color: #B7101D;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+  min-width: 80px;
+}
+
+.material-pagination-select:hover,
+.material-pagination-select:focus {
+  border-color: #8B0000;
+  outline: none;
+}
+
+.material-pagination-controls {
+  display: flex;
+  position: absolute;
+  top: 45vh;
+  margin-left:80%;
+  
+}
+
+.material-pagination-btn {
+  background-color: #8B0000;
+  color: white;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.material-pagination-btn:disabled {
+  background-color: #d67a7a;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.material-pagination-btn:not(:disabled):hover {
+  background-color: #8B0000;
+  color: white;
+}
+
+.total-count {
+  font-weight: 600;
+  color: #333;
+  user-select: none;
+  margin-right: 50px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.confirmed-count {
+  color: #2CA550;
+  font-weight: 700;
+}
+
+.pending-count {
+  color: #EA5757;
+  font-weight: 700;
 }
 
 .pickup-section {
   flex: 1;
   overflow-x: auto;
+  overflow-y: auto;
+  max-height: 100%;
 }
 
 .pickup-table {
@@ -126,11 +218,13 @@ body {
 }
 
 .pickup-table thead th {
-  color:#8B0000 ;
+  color: #8B0000;
   font-weight: bold;
   padding: 12px;
   text-align: center;
   border-bottom: 2px solid #B7101D;
+  background: #fff;
+  z-index: 10;
 }
 
 .pickup-table tbody td {
@@ -141,18 +235,17 @@ body {
 
 .pickup-table tbody tr:nth-child(even) {
   background-color: #FDF3F3;
-
 }
 .pickup-table tbody tr:hover {
-  box-shadow: 0 8px 16px rgba(183, 16, 29, 0.2); 
+  box-shadow: 0 8px 16px rgba(183, 16, 29, 0.2);
   transform: translateY(-3px);
-  background-color: #fff5f5; 
+  background-color: #fff5f5;
   cursor: pointer;
-  z-index: 1; 
+  z-index: 1;
   position: relative;
 }
 .pickup-table tbody tr.selected-row {
-  border: 2px solid #B7101D; 
+  border: 2px solid #B7101D;
   box-shadow: 0 0 6px rgba(183, 16, 29, 0.4);
   background-color: #fff0f0;
   position: relative;
@@ -186,17 +279,11 @@ body {
 .status-button.confirmed:hover {
   background-color: #238f3d;
 }
+
 .payment-btn {
   background-color: #d67a7a;
   color: white;
   border: none;
-  padding: 6px 14px;
-  border-radius: 6px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  min-width: 60px;
-  color: white;
   padding: 6px 14px;
   border-radius: 6px;
   font-weight: 700;
@@ -218,131 +305,72 @@ body {
   opacity: 0.7;
 }
 
-.pagination-controls {
-  position: fixed;
-  bottom: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
-  gap: 400px;
-  flex-wrap: wrap;
-  padding: 0 10px;
-  z-index: 2;
-  background-color: white;
-
-}
-
-
-.rows-per-page-selector {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  
-}
-
-.rows-label {
-  color: #333;
-  font-weight: 600;
-  user-select: none; 
-}
-
-.rows-per-page-selector select {
-  padding: 6px 12px;
-  border: 1.5px solid #B7101D;
-  border-radius: 6px;
-  font-size: 14px;
-  background-color: white;
-  color: #B7101D;
-  cursor: pointer;
-  transition: border-color 0.3s ease;
-  min-width: 80px;  
-}
-
-.rows-per-page-selector select:hover,
-.rows-per-page-selector select:focus {
-  border-color: #d33c41;
-  outline: none;
-}
-
-.page-navigation {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
+.pagination-controls,
+.rows-per-page-selector,
+.rows-label,
+.page-navigation,
 .pagination-button {
-  background-color: #8B0000;
-  color: white;
-  border: none;
-  padding: 6px 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  user-select: none;
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
 }
-
-.pagination-button:disabled {
-  background-color: #d67a7a;
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.pagination-button:not(:disabled):hover {
-  background-color: #d33c41;
-}
-
-
-.total-count {
-  font-weight: 600;
-  color: #333;
-  user-select: none;
-}
-
-.confirmed-count {
-  color: #2CA550;
-  font-weight: 700;
-}
-
-.pending-count {
-  color: #EA5757;
-  font-weight: 700;
-}
-
 
 @media (max-width: 1366px) {
   .pickup-table-container {
-    margin-left: 200px;   
-    max-width: 1165px;    
+    margin-left: 200px;
+    max-width: 1165px;
   }
   .pickup-header {
-    width: 100%;         
+    width: 100%;
     padding: 0 10px;
   }
+  .material-pagination-controls{
+    top: 53vh;
+    margin-right: 90px;
+    width: 100%;
+  }
   .search-input {
-    min-width: 180px;     
+    min-width: 180px;
   }
   .pickup-request-bar p {
     margin-left: 38%;
     font-size: 28px;
   }
+  .material-pagination-bar {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 0;
+  }
+  .total-count {
+    margin-left: 0;
+    margin-top: 8px;
+  }
 }
 
 @media (max-width: 1280px) {
-  .pickup-header{
-     margin-left: -39px;
+  .pickup-header {
+    margin-left: -39px;
   }
   .pickup-table-container {
     width: 1000px;
     margin-left: 100px;
-  
   }
-  .pickup-section{
+   .material-pagination-controls{
+    top: 53vh;
+    padding-right: 98px;
+    
+    width: 100%;
+  }
+  .pickup-section {
     width: 1050px;
+    max-height: 80vh;
+    overflow-y: auto;
   }
- .pickup-request-bar p {
- 
+  .pickup-request-bar p {
     font-size: 20px;
     align-items: center;
   }
@@ -353,6 +381,15 @@ body {
   .pickup-table tbody td {
     padding: 8px;
     font-size: 13px;
+  }
+  .material-pagination-bar {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 0;
+  }
+  .total-count {
+    margin-right: 70px;
+    margin-top: 8px;
   }
 }
 
@@ -365,6 +402,7 @@ body {
     width: 100%;
     box-shadow: none;
     min-width: 570px;
+    height: 70vh;
   }
   .pickup-header {
     width: 104%;
@@ -392,5 +430,18 @@ body {
   .pickup-table thead th,
   .pickup-table tbody td {
     padding: 6px;
+  }
+  .pickup-section {
+    max-height: 40vh;
+    overflow-y: auto;
+  }
+  .material-pagination-bar {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 0;
+  }
+  .total-count {
+    margin-left: 0;
+    margin-top: 8px;
   }
 }
