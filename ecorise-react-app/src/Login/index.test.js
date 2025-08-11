@@ -19,7 +19,7 @@ const mockUseUsers = jest.fn(() => ({
   error: null,
 }));
 
-jest.mock('../hooks/useFetchUser', () => ({
+jest.mock('../hooks/useFetchUsers', () => ({
   useUsers: () => mockUseUsers(),
 }));
 

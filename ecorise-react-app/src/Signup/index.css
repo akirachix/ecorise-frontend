@@ -182,6 +182,10 @@ body {
   color: #222;
   user-select: none;
 }
+.signuplink{
+  text-decoration: none;
+  color: white;
+}
 .signup-link {
   color: #8A2324;
   font-weight: 700;

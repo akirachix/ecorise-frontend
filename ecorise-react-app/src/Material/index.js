@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import useFetchMaterial from "../hooks/useFetchMaterialsInfo"
+import useFetchMaterial from "../hooks/useFetchMaterialsInfo";
 import "./index.css";
+
+const ROW_OPTIONS = [5, 10, 15, "All"];
 
 function Modal({ open, onClose, children }) {
   if (!open) return null;
@@ -74,12 +76,63 @@ function AddMaterialModal({ open, onClose, onAdd }) {
   );
 }
 
+function MaterialPaginationBar({
+  rowsPerPage,
+  setRowsPerPage,
+  currentPage,
+  setCurrentPage,
+  totalPages,
+  isAll
+}) {
+  return (
+    <div className="material-pagination-bar">
+      <div>
+        <label htmlFor="rows-per-page">Rows per page:</label>
+        <select
+          id="rows-per-page"
+          className="material-pagination-select"
+          value={rowsPerPage}
+          onChange={e => {
+            setRowsPerPage(e.target.value === "All" ? "All" : Number(e.target.value));
+            setCurrentPage(1);
+          }}
+        >
+          {ROW_OPTIONS.map(opt => (
+            <option key={opt} value={opt}>{opt}</option>
+          ))}
+        </select>
+      </div>
+      {!isAll && totalPages > 1 && (
+        <div className="material-pagination-controls">
+          <button
+            className="material-pagination-btn"
+            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+          >
+            Prev
+          </button>
+          <span>Page {currentPage} of {totalPages}</span>
+          <button
+            className="material-pagination-btn"
+            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function MaterialPricing() {
   const { materials, loading, error, editMaterial, removeMaterial, addMaterial } = useFetchMaterial();
   const [editingId, setEditingId] = useState(null);
   const [editValues, setEditValues] = useState({ material_type: "", price_per_kg: "" });
   const [showAddModal, setShowAddModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(ROW_OPTIONS[0]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const startEdit = (mat) => {
     setEditingId(mat.material_id);
@@ -141,6 +194,19 @@ function MaterialPricing() {
     (a, b) => Number(a.material_id) - Number(b.material_id)
   );
 
+  const totalRows = sortedMaterials.length;
+  const pageSize = rowsPerPage === "All" ? totalRows || 1 : rowsPerPage;
+  const totalPages = Math.max(1, Math.ceil(totalRows / pageSize));
+  const isAll = rowsPerPage === "All";
+  const paginatedMaterials =
+    isAll
+      ? sortedMaterials
+      : sortedMaterials.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+
+  React.useEffect(() => {
+    if (currentPage > totalPages) setCurrentPage(1);
+  }, [rowsPerPage, totalRows, totalPages, currentPage]);
+
   return (
     <div className="pickup-main-container">
       <div className="pickup-table-container">
@@ -166,6 +232,14 @@ function MaterialPricing() {
           {error && <div className="error">Error: {error}</div>}
           {!loading && !error && (
             <>
+              <MaterialPaginationBar
+                rowsPerPage={rowsPerPage}
+                setRowsPerPage={setRowsPerPage}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalPages={totalPages}
+                isAll={isAll}
+              />
               <table className="pickup-table" aria-label="Material Pricing Table">
                 <thead>
                   <tr>
@@ -177,18 +251,18 @@ function MaterialPricing() {
                   </tr>
                 </thead>
                 <tbody>
-                  {sortedMaterials.length === 0 ? (
+                  {paginatedMaterials.length === 0 ? (
                     <tr>
                       <td colSpan={5} className="no-data-cell">
                         No materials found.
                       </td>
                     </tr>
                   ) : (
-                    sortedMaterials.map((mat, idx) => {
+                    paginatedMaterials.map((mat, idx) => {
                       const isEditing = editingId === mat.material_id;
                       return (
                         <tr key={mat.material_id} className={idx % 2 === 0 ? "even-row" : "odd-row"}>
-                          <td>{idx + 1}</td>
+                          <td>{(currentPage - 1) * pageSize + idx + 1}</td>
                           <td>
                             {isEditing ? (
                               <input

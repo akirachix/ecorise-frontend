@@ -1,7 +1,8 @@
 const usersApi = process.env.REACT_APP_BASE_URL?.replace(/\/$/, "");
 export const signupUser = async (userData) => {
   try {
-    const response = await fetch(`${usersApi}/users`, {
+   
+    const response = await fetch(`${usersApi}/users/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData),

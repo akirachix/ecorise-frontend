@@ -10,17 +10,15 @@ import Teaser from './Teaser';
 import Feedback from './Feedback';
 import Dashboard from './Dashboard';
 import LoginScreen from './Login';
-
 import Sidebar from './shared-component/SideBar';
 
 function AppContent() {
   const location = useLocation();
   const noSidebarRoutes = ['/login', '/signup','/teaser']; 
   const hideSidebar = noSidebarRoutes.includes(location.pathname);
+  
 
   return (
-     
-
     <div style={{ display: 'flex' }}>
       {!hideSidebar && <Sidebar />}
       <div

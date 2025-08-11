@@ -5,7 +5,7 @@ import "./style.css";
 import { useNavigate } from "react-router-dom";
 import { usePickups } from '../hooks/useFetchPickups';
 import { useProducts } from '../hooks/useFetchProducts';
-import { useUsers } from '../hooks/useFetchUser';
+import { useUsers } from '../hooks/useFetchUsers';
 import { usePayment } from '../hooks/useFetchPayments';
 function Dashboard() {
   const navigate = useNavigate();
