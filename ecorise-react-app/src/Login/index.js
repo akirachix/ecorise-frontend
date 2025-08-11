@@ -3,7 +3,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
-import { useUsers } from "../hooks/useFetchUser";
+import { useUsers } from "../hooks/useFetchUsers";
 const LoginScreen = () => {
   const [form, setForm] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);

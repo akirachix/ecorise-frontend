@@ -5,21 +5,76 @@ import "./index.css";
 
 const ROW_OPTIONS = [5, 10, 15, "All"];
 
+function PickupPaginationBar({
+  rowsPerPage,
+  setRowsPerPage,
+  currentPage,
+  setCurrentPage,
+  totalPages,
+  isAll,
+  totalConfirmed,
+  totalPending
+}) {
+  return (
+    <div className="material-pagination-bar">
+      <div>
+        <label htmlFor="rowsPerPage">Rows per page:</label>
+        <select
+          id="rowsPerPage"
+          className="material-pagination-select"
+          value={rowsPerPage}
+          onChange={e => {
+            setRowsPerPage(e.target.value === "All" ? "All" : Number(e.target.value));
+            setCurrentPage(1);
+          }}
+        >
+          {ROW_OPTIONS.map(opt => (
+            <option key={opt} value={opt}>{opt}</option>
+          ))}
+        </select>
+      </div>
+      {!isAll && totalPages > 1 && (
+        <div className="material-pagination-controls">
+          <button
+            className="material-pagination-btn"
+            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+            type="button"
+          >
+            Prev
+          </button>
+          <span>Page {currentPage} of {totalPages}</span>
+          <button
+            className="material-pagination-btn"
+            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+            type="button"
+          >
+            Next
+          </button>
+        </div>
+      )}
+      <div className="total-count" style={{ marginLeft: "auto", fontWeight: 500 }}>
+        Confirmed: <span className="confirmed-count">{totalConfirmed}</span> | Pending: <span className="pending-count">{totalPending}</span>
+      </div>
+    </div>
+  );
+}
+
 function PickupTable({ onMaterialClick }) {
   const { pickups: allPickups, loading, error } = useFetchPickups();
   const navigate = useNavigate();
 
   const [localPickups, setLocalPickups] = useState([]);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(ROW_OPTIONS[0]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRowId, setSelectedRowId] = useState(null); 
   const [paidPickups, setPaidPickups] = useState(new Set());
-   useEffect(() => {
+
+  useEffect(() => {
     setLocalPickups(allPickups);
   }, [allPickups]);
-
- 
 
   const toggleStatus = (id) => {
     setLocalPickups((prev) =>
@@ -34,7 +89,6 @@ function PickupTable({ onMaterialClick }) {
   const filteredPickups = useMemo(() => {
     if (!searchTerm.trim()) return localPickups;
     const lowerSearch = searchTerm.toLowerCase();
-
     return localPickups.filter((item) => {
       const fieldsToSearch = [
         (item._id || item.request_id || "").toString(),
@@ -45,7 +99,6 @@ function PickupTable({ onMaterialClick }) {
         item.createdAt ? new Date(item.createdAt).toLocaleString() : "",
         item.status || "",
       ];
-
       return fieldsToSearch.some((field) => field.toLowerCase().includes(lowerSearch));
     });
   }, [localPickups, searchTerm]);
@@ -55,8 +108,9 @@ function PickupTable({ onMaterialClick }) {
   }, [searchTerm, rowsPerPage]);
 
   const totalRows = filteredPickups.length;
-  const effectiveRowsPerPage = rowsPerPage === "All" ? totalRows : rowsPerPage;
-  const totalPages = Math.ceil(totalRows / effectiveRowsPerPage);
+  const pageSize = rowsPerPage === "All" ? totalRows || 1 : rowsPerPage;
+  const totalPages = Math.max(1, Math.ceil(totalRows / pageSize));
+  const isAll = rowsPerPage === "All";
 
   useEffect(() => {
     if (currentPage > totalPages && totalPages > 0) {
@@ -65,10 +119,10 @@ function PickupTable({ onMaterialClick }) {
   }, [currentPage, totalPages]);
 
   const paginatedPickups = useMemo(() => {
-    if (rowsPerPage === "All") return filteredPickups;
-    const startIndex = (currentPage - 1) * rowsPerPage;
-    return filteredPickups.slice(startIndex, startIndex + rowsPerPage);
-  }, [filteredPickups, currentPage, rowsPerPage]);
+    if (isAll) return filteredPickups;
+    const startIndex = (currentPage - 1) * pageSize;
+    return filteredPickups.slice(startIndex, startIndex + pageSize);
+  }, [filteredPickups, currentPage, pageSize, isAll]);
 
   const totalConfirmed = filteredPickups.filter((p) => p.status === "Confirmed").length;
   const totalPending = filteredPickups.filter((p) => p.status === "Pending").length;
@@ -79,17 +133,14 @@ function PickupTable({ onMaterialClick }) {
       alert("Payment has already been made for this request.");
       return;
     }
-
     if (pickup.status !== "Confirmed") {
       alert("Payment can only be made when status is Confirmed.");
       return;
     }
-
     const confirmed = window.confirm(`Are you sure you want to make payment to ${pickup.name || "this trader"}?`);
     if (confirmed) {
-     
       setPaidPickups((prev) => new Set(prev).add(pickupId));    
-      navigate(`/payment/${pickupId}`);
+      navigate(`/payment`);
     }
   };
 
@@ -99,7 +150,6 @@ function PickupTable({ onMaterialClick }) {
 
   return (
     <div className="pickup-main-container">
-
       <div className="pickup-table-container">
         <header className="pickup-header">
           <div className="title">ECORISE</div>
@@ -115,11 +165,19 @@ function PickupTable({ onMaterialClick }) {
             />
           </div>
         </header>
-
         <div className="pickup-request-bar">
           <p>PickUp Requests</p>
         </div>
-
+        <PickupPaginationBar
+          rowsPerPage={rowsPerPage}
+          setRowsPerPage={setRowsPerPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+          isAll={isAll}
+          totalConfirmed={totalConfirmed}
+          totalPending={totalPending}
+        />
         <section className="pickup-section">
           <table className="pickup-table">
             <thead>
@@ -135,12 +193,11 @@ function PickupTable({ onMaterialClick }) {
               </tr>
             </thead>
             <tbody>
-              {paginatedPickups.map((pickup) => {
+              {paginatedPickups.map((pickup, idx) => {
                 const rowId = pickup._id || pickup.request_id;
                 const isSelected = selectedRowId === rowId;
                 const isPaid = paidPickups.has(rowId);
                 const canPay = pickup.status === "Confirmed" && !isPaid;
-
                 return (
                   <tr
                     key={rowId}
@@ -168,7 +225,6 @@ function PickupTable({ onMaterialClick }) {
                         {pickup.status}
                       </button>
                     </td>
-
                     <td>
                       <button
                         className="payment-btn"
@@ -194,56 +250,6 @@ function PickupTable({ onMaterialClick }) {
               })}
             </tbody>
           </table>
-
-          <div className="pagination-controls">
-            <div className="rows-per-page-selector">
-              <label htmlFor="rowsPerPage" className="rows-label">
-                Rows per page:
-              </label>
-              <select
-                id="rowsPerPage"
-                value={rowsPerPage}
-                onChange={(e) => {
-                  const val = e.target.value === "All" ? "All" : Number(e.target.value);
-                  setRowsPerPage(val);
-                  setCurrentPage(1);
-                }}
-              >
-                {ROW_OPTIONS.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="page-navigation">
-              <button
-                className="pagination-button"
-                onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-                disabled={currentPage === 1}
-                type="button"
-              >
-                Previous
-              </button>
-              <span>
-                Page {totalPages === 0 ? 0 : currentPage} of {totalPages}
-              </span>
-              <button
-                className="pagination-button"
-                onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-                disabled={currentPage === totalPages || totalPages === 0}
-                type="button"
-              >
-                Next
-              </button>
-            </div>
-
-            <div className="total-count">
-              Confirmed: <span className="confirmed-count">{totalConfirmed}</span> | Pending:{" "}
-              <span className="pending-count">{totalPending}</span>
-            </div>
-          </div>
         </section>
       </div>
     </div>

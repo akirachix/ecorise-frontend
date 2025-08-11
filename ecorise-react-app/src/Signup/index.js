@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './index.css';
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaPhone } from "react-icons/fa";
-import { signupUser } from '../utils/signupUser';
+import { useSignup } from '../hooks/useFetchUserProfile';
 
 function SignUp() {
   const [form, setForm] = useState({
@@ -19,17 +20,12 @@ function SignUp() {
   });
 
   const confirmPasswordRef = useRef(null);
+  const { signup } = useSignup();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    setForm(prev => {
-      const updatedForm = { ...prev };
-      updatedForm[name] = value;
-      return updatedForm;
-    });
-
-
+    setForm(prev => ({ ...prev, [name]: value }));
     setError('');
     setSuccess('');
   };
@@ -60,8 +56,8 @@ function SignUp() {
         phone_number: form.phone_number,
         password: form.password,
       };
-      await signupUser(payload);
-      setSuccess('Signed up successfully! Please log in.');
+      await signup(payload);
+      setSuccess('Signed up successfully!');
       setForm({
         username: '',
         email: '',
@@ -70,6 +66,7 @@ function SignUp() {
         confirmPassword: '',
       });
       setError('');
+      navigate('/dashboard');
     } catch (err) {
       setError(err.message || 'Signup failed');
       setSuccess('');
@@ -83,9 +80,7 @@ function SignUp() {
       </div>
       <div className="signup-form-side">
         <form className="signup-form" onSubmit={handleSubmit}>
-
           <h2 className="signup-title">Sign Up</h2>
-
           <div className="signup-input-group">
             <label className="signup-label">Username</label>
             <div className="signup-input-wrapper">
@@ -101,7 +96,6 @@ function SignUp() {
               />
             </div>
           </div>
-
           <div className="signup-input-group">
             <label className="signup-label">Email</label>
             <div className="signup-input-wrapper">
@@ -117,7 +111,6 @@ function SignUp() {
               />
             </div>
           </div>
-
           <div className="signup-input-group">
             <label className="signup-label">Phone Number</label>
             <div className="signup-input-wrapper">
@@ -133,7 +126,6 @@ function SignUp() {
               />
             </div>
           </div>
-
           <div className="signup-input-group">
             <label className="signup-label">Password</label>
             <div className="signup-input-wrapper">
@@ -146,7 +138,6 @@ function SignUp() {
                 value={form.password}
                 onChange={handleChange}
                 required
-
               />
               <span
                 className="signup-eye-icon"
@@ -159,7 +150,6 @@ function SignUp() {
               </span>
             </div>
           </div>
-
           <div className="signup-input-group">
             <label className="signup-label">Confirm Password</label>
             <div className="signup-input-wrapper">
@@ -185,12 +175,9 @@ function SignUp() {
               </span>
             </div>
           </div>
-
           {error && <div className="signup-error">{error}</div>}
           {success && <div className="signup-success">{success}</div>}
-
           <button className="signup-btn" type="submit">Sign Up</button>
-
           <div className="signup-footer">
             Already have an account? <a href="/login" className="signup-link">Login</a>
           </div>

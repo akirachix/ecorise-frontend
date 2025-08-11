@@ -1,7 +1,5 @@
-
 import { fetchUsers } from "../utils/fetchUsers";
 import { useState, useEffect } from "react";
-
 export const useUsers = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);

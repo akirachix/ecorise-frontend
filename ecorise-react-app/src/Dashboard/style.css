@@ -1,5 +1,5 @@
 .dashboard-main {
-  width: 1730px;
+  width: 118%;
   margin-left: 160px;
   background: #fff;
   flex-direction: column;
@@ -323,7 +323,7 @@ text-anchor: middle;
 }
 @media screen and (max-width: 1366px) {
   .dashboard-main {
-    width: 100%;
+    width: 104%;
     margin-left: 180px;
     padding: 0px 20px 30px 20px;
     overflow-x: hidden;
@@ -366,9 +366,9 @@ text-anchor: middle;
   width: 100%;
 }
 }
-@media screen and(min-width:1024) and (max-width: 1280px) {
+@media screen and (max-width: 1280px) {
   .dashboard-main {
-    width: 100%;
+    width: 109%;
     margin-left: 180px;
     padding: 0px 20px 30px 20px;
     overflow-x: hidden;

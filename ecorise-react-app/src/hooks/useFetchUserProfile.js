@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { signupUser } from "../utils/fetchUserprofiles"; 
-
+import { signupUser } from "../utils/signupUser"; 
 
 export function useSignup() {
   const [loading, setLoading] = useState(false);
