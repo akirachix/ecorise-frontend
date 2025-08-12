@@ -19,6 +19,7 @@ body {
   background-color: #FBF7F7;
   min-height: 100vh;
   flex-shrink: 1;
+  width: 100%;
 }
 
 .pickup-table-container {
@@ -393,55 +394,22 @@ body {
   }
 }
 
-@media (max-width: 1024px) {
-  .pickup-main-container {
-    flex-direction: column;
-  }
-  .pickup-table-container {
-    margin-left: 220px;
+ @media (max-width: 1024px) {
+  .material-pagination-controls{
+    top: 53vh;
+    padding-right: 90px;    
     width: 100%;
-    box-shadow: none;
-    min-width: 570px;
-    height: 70vh;
   }
-  .pickup-header {
-    width: 104%;
-    padding: 0 10px;
-    margin-left: -10px;
+ 
+  
+} 
+@media screen and (min-width: 1367px) and (max-width:1500px) {
+ .pickup-table-container {
+    margin-left: 200px;
+    max-width: 1312px;
   }
-  .pickup-request-bar p {
-    margin-left: 37%;
-    font-size: 20px;
-    text-align: center;
+  
+  .pickup-main-container{
+    width: 170px;
   }
-  .search-container {
-    justify-content: center;
   }
-  .search-input {
-    min-width: 140px;
-    width: 80%;
-    max-width: 250px;
-  }
-  .pickup-table {
-    width: 100%;
-    margin-left: 0;
-    font-size: 12px;
-  }
-  .pickup-table thead th,
-  .pickup-table tbody td {
-    padding: 6px;
-  }
-  .pickup-section {
-    max-height: 40vh;
-    overflow-y: auto;
-  }
-  .material-pagination-bar {
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: 8px 0;
-  }
-  .total-count {
-    margin-left: 0;
-    margin-top: 8px;
-  }
-}

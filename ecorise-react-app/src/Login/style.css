@@ -204,7 +204,10 @@ body {
   .input-icon {
     left: 12px;
     font-size: 1rem;
-    height: 40px;
+    height: 40px;ch-container{
+  position: relative;
+  padding-right: 90pv;
+}
   }
   .toggle-icon {
     right: 12px;
