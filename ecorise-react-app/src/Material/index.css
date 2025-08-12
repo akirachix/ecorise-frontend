@@ -499,3 +499,24 @@ body {
   left: 500px;
 }
 }
+
+@media (max-width: 1399px) {
+  .pickup-table-container {
+    margin-left: 200px;
+    max-width: 1175px;
+  }
+  .pickup-header {
+    width: 102%;
+    padding: 0 10px;
+  }
+  .search-input {
+    min-width: 180px;
+  }
+  .pickup-request-bar p {
+    margin-left: 38%;
+    font-size: 28px;
+  }
+  .add-material-btn{
+    margin-right: 20px;
+  }
+}

@@ -327,7 +327,7 @@ text-anchor: middle;
 @media screen and (max-width: 1366px) {
   body{
     overflow-x: hidden;
-    /* position: fixed; */
+    position: fixed;
   }
   .dashboard-main {
     width: 104%;
@@ -542,4 +542,58 @@ text-anchor: middle;
   position: relative;
   width: 100%;
 }
+}
+
+
+@media screen and (max-width:1399px) {
+ body{
+    overflow-x: hidden;
+    width: 100%;
+  }
+  .dashboard-main {
+    width: 107%;
+    margin-left: 180px;
+    padding: 0px 20px 30px 20px;
+    overflow-x: hidden;
+  }
+  .dashboard-header {
+    width:96.5%;
+  }
+  .dashboard-stats-gauge-container {
+    gap: 100px;
+    margin-bottom: 70px;
+  }
+  .dashboard-stats {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 700px;
+    gap: 20px;
+    padding-left: 5%;
+  }
+  .dashboard-gauge {
+    width: 260px;
+    height: 220px;
+  }
+  .money-spent-chart {
+    padding-left: 30px;
+  }
+  .dashboard-content {
+    gap: 50px;
+    align-items: flex-start;
+    width: 96%;
+  }
+  .bars-container{
+    width: 30%;
+  }
+  .money-spent-chart{
+    width: 80%;
+  }
+  .month-label{
+    gap: 20px;
+  }
+  .chart-body {
+  display: flex;
+  height: 300px;
+  position: relative;
+  width: 100%;
+} 
 }
