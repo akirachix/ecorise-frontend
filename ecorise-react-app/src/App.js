@@ -23,7 +23,7 @@ function AppContent() {
        flex: 1,
       minHeight: '100vh',
       boxSizing: 'border-box',
-      marginRight: !hideSidebar ? '380px' : 0,
+      marginRight: !hideSidebar ? '200px' : 0,
         }}
       >
         <Routes>
