@@ -147,9 +147,11 @@ html, body {
  display: flex;
  border-bottom: 1px solid #ccc;
 }
-@media (max-width: 1024px) {
-  body{
+
+@media (max-width: 1024px){
+   body{
     overflow-y: scroll;
+    width: 100%;
   }
  .pagination-controls {
  display: flex;
@@ -163,7 +165,7 @@ html, body {
  }
  .feedback-title {
    font-size: 30px;
-   padding-left: 250px;
+   padding-left: 20px;
  }
  .label-cell {
    font-size: 14px;
@@ -181,54 +183,154 @@ html, body {
    padding: 0.4rem 0.8rem;
  }
 .feedback-table-container {
- position: absolute;
  display: flex;
  flex-direction: column;
  background: white;
  border-radius: 12px;
  box-shadow: 0 4px 15px rgba(0,0,0,0.07);
- width: 621px;
- margin-left: 80px;
- padding-left: 100px;
+ width: 21px;
+ padding-left: 1px;
+} 
+  
 }
-}
-@media (min-width: 1268px) and (max-width:1400px){
- .feedback-title {
-   font-size: 30px;
-   padding-left: 250px;
- }
- .label-cell {
-   font-size: 14px;
-   padding: 1rem 0;
- }
- .value-cell {
-   font-size: 14px;
-   padding: 1rem 0.5rem;
- }
- .pagination-controls label {
-   font-size: 1rem;
- }
- .pagination-button {
-   font-size: 1rem;
-   padding: 0.4rem 0.8rem;
- }
-.feedback-table-container {
- position: absolute;
+@media (max-width:1280px) {
+  body{
+    overflow-y: scroll;
+    width: 100%;
+    
+  }
+ .pagination-controls {
  display: flex;
- flex-direction: column;
- background: white;
- border-radius: 12px;
- box-shadow: 0 4px 15px rgba(0,0,0,0.07);
- width: 70%;
-}
-.pagination-controls {
- display: flex;
- margin-bottom: -70px;
+ margin-bottom: -45px;
  gap: 10px;
  justify-content: flex-start;
  margin-top: 16px;
+ margin-left: 300px;
  display: flex;
  align-items: center;
- margin-left: 300px;
  }
+ .feedback-title {
+   font-size: 30px;
+   padding-left: 20px;
+ }
+ .label-cell {
+   font-size: 14px;
+   padding: 1rem 0;
+ }
+ .value-cell {
+   font-size: 14px;
+   padding: 1rem 0.5rem;
+ }
+ .pagination-controls label {
+   font-size: 1rem;
+ }
+ .pagination-button {
+   font-size: 1rem;
+   padding: 0.4rem 0.8rem;
+ }
+.feedback-table-container {
+ display: flex;
+ flex-direction: column;
+ background: white;
+ border-radius: 12px;
+ box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+ width: 921px;
+ padding-right: 50px;
+} 
+  
+}
+
+@media screen and (min-width:1367px) and (max-width:1500px) {
+   body{
+    overflow-y: scroll;
+    width: 100%;
+  }
+ .pagination-controls {
+ display: flex;
+ margin-bottom: -45px;
+ gap: 10px;
+ justify-content: flex-start;
+ margin-top: 16px;
+ margin-left: 300px;
+ display: flex;
+ align-items: center;
+ }
+ .feedback-title {
+   font-size: 30px;
+   padding-left: 40px;
+ }
+ .label-cell {
+   font-size: 14px;
+   padding: 1rem 0;
+ }
+ .value-cell {
+   font-size: 14px;
+   padding: 1rem 0.5rem;
+ }
+ .pagination-controls label {
+   font-size: 1rem;
+ }
+ .pagination-button {
+   font-size: 1rem;
+   padding: 0.4rem 0.8rem;
+ }
+.feedback-table-container {
+ position: absolute;
+ display: flex;
+ flex-direction: column;
+ background: white;
+ border-radius: 12px;
+ box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+ width: 1091px;
+ padding-right: 40px;
+}
+}
+
+@media screen and (max-width:1366px) {
+   body{
+    overflow-y: scroll;
+    width: 100%;
+    
+  }
+ .pagination-controls {
+ display: flex;
+ margin-bottom: -45px;
+ gap: 10px;
+ justify-content: flex-start;
+ margin-top: 16px;
+ margin-left: 300px;
+ display: flex;
+ align-items: center;
+ }
+ .feedback-title {
+   font-size: 30px;
+   padding-left: 20px;
+ }
+ .label-cell {
+   font-size: 14px;
+   padding: 1rem 0;
+ }
+ .value-cell {
+   font-size: 14px;
+   padding: 1rem 0.5rem;
+ }
+ .pagination-controls label {
+   font-size: 1rem;
+ }
+ .pagination-button {
+   font-size: 1rem;
+   padding: 0.4rem 0.8rem;
+ }
+.feedback-table-container {
+ position: absolute;
+ display: flex;
+ flex-direction: column;
+ background: white;
+ border-radius: 12px;
+ box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+ width: 921px;
+ margin-left: 50px;
+ padding-left: 1px;
+} 
+  
 }
