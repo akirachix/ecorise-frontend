@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+
 import useFetchMaterial from "../hooks/useFetchMaterialsInfo";
 import "./index.css";
+import React, { useState, useEffect } from "react";
+
 
 const ROW_OPTIONS = [5, 10, 15, "All"];
 
@@ -23,9 +25,9 @@ function AddMaterialModal({ open, onClose, onAdd }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!type.trim() || !price.trim()) return;
+    if (!type.trim() || price === "" || isNaN(Number(price))) return;
     setSubmitting(true);
-    await onAdd({ material_type: type, price_per_kg: price });
+    await onAdd({ material_type: type.trim(), price_per_kg: Number(price) });
     setType("");
     setPrice("");
     setSubmitting(false);
@@ -127,13 +129,14 @@ function MaterialPaginationBar({
 
 function MaterialPricing() {
   const { materials, loading, error, editMaterial, removeMaterial, addMaterial } = useFetchMaterial();
+
   const [editingId, setEditingId] = useState(null);
   const [editValues, setEditValues] = useState({ material_type: "", price_per_kg: "" });
   const [showAddModal, setShowAddModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(ROW_OPTIONS[0]);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [isAdding, setIsAdding] = useState(false);
   const startEdit = (mat) => {
     setEditingId(mat.material_id);
     setEditValues({ material_type: mat.material_type, price_per_kg: mat.price_per_kg });
@@ -145,11 +148,11 @@ function MaterialPricing() {
   };
 
   const saveEdit = async (id) => {
-    if (!editValues.material_type.trim() || !editValues.price_per_kg.toString().trim()) return;
+    if (!editValues.material_type.trim() || editValues.price_per_kg === "" || isNaN(Number(editValues.price_per_kg))) return;
     try {
       await editMaterial(id, {
         material_type: editValues.material_type.trim(),
-        price_per_kg: editValues.price_per_kg.trim(),
+        price_per_kg: Number(editValues.price_per_kg),
       });
       cancelEdit();
     } catch (err) {
@@ -167,19 +170,22 @@ function MaterialPricing() {
     }
   };
 
+
   const handleAddMaterial = async ({ material_type, price_per_kg }) => {
-    if (!material_type.trim() || !price_per_kg.toString().trim()) return;
+    if (!material_type.trim() || price_per_kg === "" || isNaN(Number(price_per_kg))) return;
     try {
-      await addMaterial({
-        material_type: material_type.trim(),
-        price_per_kg: price_per_kg.trim(),
-      });
+      setIsAdding(true);
+      await addMaterial({ material_type: material_type.trim(), price_per_kg: Number(price_per_kg) });
+      setIsAdding(false);
+      setShowAddModal(false);
     } catch (err) {
+      setIsAdding(false);
       alert("Failed to add material: " + err.message);
     }
   };
 
-  const filteredMaterials = materials.filter((mat) => {
+  
+  const filteredMaterials = materials.filter(mat => {
     const lowerTerm = searchTerm.toLowerCase();
     const createdAtStr = mat.created_at ? new Date(mat.created_at).toLocaleString() : "";
     return (
@@ -190,20 +196,17 @@ function MaterialPricing() {
     );
   });
 
-  const sortedMaterials = [...filteredMaterials].sort(
-    (a, b) => Number(a.material_id) - Number(b.material_id)
-  );
+
+  const sortedMaterials = [...filteredMaterials].sort((a, b) => Number(b.material_id) - Number(a.material_id));
 
   const totalRows = sortedMaterials.length;
   const pageSize = rowsPerPage === "All" ? totalRows || 1 : rowsPerPage;
   const totalPages = Math.max(1, Math.ceil(totalRows / pageSize));
   const isAll = rowsPerPage === "All";
-  const paginatedMaterials =
-    isAll
-      ? sortedMaterials
-      : sortedMaterials.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+  const paginatedMaterials = isAll ? sortedMaterials : sortedMaterials.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
-  React.useEffect(() => {
+  
+  useEffect(() => {
     if (currentPage > totalPages) setCurrentPage(1);
   }, [rowsPerPage, totalRows, totalPages, currentPage]);
 
@@ -228,115 +231,96 @@ function MaterialPricing() {
           <p>Material Pricing</p>
         </div>
         <section className="pickup-section">
-          {loading && <div className="loading">Loading materials...</div>}
           {error && <div className="error">Error: {error}</div>}
-          {!loading && !error && (
-            <>
-              <MaterialPaginationBar
-                rowsPerPage={rowsPerPage}
-                setRowsPerPage={setRowsPerPage}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                totalPages={totalPages}
-                isAll={isAll}
-              />
-              <table className="pickup-table" aria-label="Material Pricing Table">
-                <thead>
-                  <tr>
-                    <th>Number</th>
-                    <th>Material Type</th>
-                    <th>Price per Kg (Kshs)</th>
-                    <th>Created At</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {paginatedMaterials.length === 0 ? (
-                    <tr>
-                      <td colSpan={5} className="no-data-cell">
-                        No materials found.
+          <MaterialPaginationBar
+            rowsPerPage={rowsPerPage}
+            setRowsPerPage={setRowsPerPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={totalPages}
+            isAll={isAll}
+          />
+          <table className="pickup-table" aria-label="Material Pricing Table">
+            <thead>
+              <tr>
+                <th>Number</th>
+                <th>Material Type</th>
+                <th>Price per Kg (Kshs)</th>
+                <th>Created At</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(loading || isAdding) ? (
+                <tr>
+                  <td colSpan={5} className="loading-cell">Loading materials...</td>
+                </tr>
+              ) : paginatedMaterials.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="no-data-cell">
+                    No materials found.
+                  </td>
+                </tr>
+              ) : (
+                paginatedMaterials.map((mat, idx) => {
+                  const isEditing = editingId === mat.material_id;
+                  return (
+                    <tr key={mat.material_id} className={idx % 2 === 0 ? "even-row" : "odd-row"}>
+                      <td>{(currentPage - 1) * pageSize + idx + 1}</td>
+                      <td>
+                        {isEditing ? (
+                          <input
+                            type="text"
+                            value={editValues.material_type}
+                            onChange={e => setEditValues(prev => ({ ...prev, material_type: e.target.value }))}
+                            aria-label="Edit Material Type"
+                            className="edit-input"
+                          />
+                        ) : (
+                          mat.material_type
+                        )}
+                      </td>
+                      <td>
+                        {isEditing ? (
+                          <input
+                            type="number"
+                            value={editValues.price_per_kg}
+                            onChange={e => setEditValues(prev => ({ ...prev, price_per_kg: e.target.value }))}
+                            step="0.01"
+                            min="0"
+                            aria-label="Edit Price per Kg"
+                            className="edit-input"
+                          />
+                        ) : (
+                          `${mat.price_per_kg}`
+                        )}
+                      </td>
+                      <td>{mat.created_at ? new Date(mat.created_at).toLocaleString() : "N/A"}</td>
+                      <td>
+                        {isEditing ? (
+                          <>
+                            <button className="material-btn" onClick={() => saveEdit(mat.material_id)}>Save</button>
+                            <button className="material-btn cancel-btn" onClick={cancelEdit}>Cancel</button>
+                          </>
+                        ) : (
+                          <>
+                            <button className="edit-btn" onClick={() => startEdit(mat)}>Edit</button>
+                            <button className="delete-btn" onClick={() => handleDelete(mat.material_id)}>Delete</button>
+                          </>
+                        )}
                       </td>
                     </tr>
-                  ) : (
-                    paginatedMaterials.map((mat, idx) => {
-                      const isEditing = editingId === mat.material_id;
-                      return (
-                        <tr key={mat.material_id} className={idx % 2 === 0 ? "even-row" : "odd-row"}>
-                          <td>{(currentPage - 1) * pageSize + idx + 1}</td>
-                          <td>
-                            {isEditing ? (
-                              <input
-                                type="text"
-                                value={editValues.material_type}
-                                onChange={(e) =>
-                                  setEditValues((prev) => ({
-                                    ...prev,
-                                    material_type: e.target.value,
-                                  }))
-                                }
-                                aria-label="Edit Material Type"
-                                className="edit-input"
-                              />
-                            ) : (
-                              mat.material_type
-                            )}
-                          </td>
-                          <td>
-                            {isEditing ? (
-                              <input
-                                type="number"
-                                value={editValues.price_per_kg}
-                                onChange={(e) =>
-                                  setEditValues((prev) => ({
-                                    ...prev,
-                                    price_per_kg: e.target.value,
-                                  }))
-                                }
-                                step="0.01"
-                                min="0"
-                                aria-label="Edit Price per Kg"
-                                className="edit-input"
-                              />
-                            ) : (
-                              `${mat.price_per_kg}`
-                            )}
-                          </td>
-                          <td>{mat.created_at ? new Date(mat.created_at).toLocaleString() : "N/A"}</td>
-                          <td>
-                            {isEditing ? (
-                              <>
-                                <button className="material-btn" onClick={() => saveEdit(mat.material_id)}>
-                                  Save
-                                </button>
-                                <button className="material-btn cancel-btn" onClick={cancelEdit}>
-                                  Cancel
-                                </button>
-                              </>
-                            ) : (
-                              <>
-                                <button className="edit-btn" onClick={() => startEdit(mat)}>
-                                  Edit
-                                </button>
-                                <button className="delete-btn" onClick={() => handleDelete(mat.material_id)}>
-                                  Delete
-                                </button>
-                              </>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })
-                  )}
-                </tbody>
-              </table>
-              <div className="add-material-btn-wrapper">
-                <button className="add-material-btn" onClick={() => setShowAddModal(true)}>
-                  + Add New Material
-                </button>
-              </div>
-              <AddMaterialModal open={showAddModal} onClose={() => setShowAddModal(false)} onAdd={handleAddMaterial} />
-            </>
-          )}
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+          <div className="add-material-btn-wrapper">
+            <button className="add-material-btn" onClick={() => setShowAddModal(true)}>
+              + Add New Material
+            </button>
+          </div>
+          <AddMaterialModal open={showAddModal} onClose={() => setShowAddModal(false)} onAdd={handleAddMaterial} />
         </section>
       </div>
     </div>
