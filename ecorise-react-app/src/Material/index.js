@@ -137,8 +137,6 @@ function MaterialPricing() {
   const [rowsPerPage, setRowsPerPage] = useState(ROW_OPTIONS[0]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
-
-  // Edit handlers
   const startEdit = (mat) => {
     setEditingId(mat.material_id);
     setEditValues({ material_type: mat.material_type, price_per_kg: mat.price_per_kg });
@@ -172,7 +170,7 @@ function MaterialPricing() {
     }
   };
 
-  // Add handler with local isAdding state
+
   const handleAddMaterial = async ({ material_type, price_per_kg }) => {
     if (!material_type.trim() || price_per_kg === "" || isNaN(Number(price_per_kg))) return;
     try {
@@ -186,7 +184,7 @@ function MaterialPricing() {
     }
   };
 
-  // Filter and search logic
+  
   const filteredMaterials = materials.filter(mat => {
     const lowerTerm = searchTerm.toLowerCase();
     const createdAtStr = mat.created_at ? new Date(mat.created_at).toLocaleString() : "";
@@ -198,7 +196,7 @@ function MaterialPricing() {
     );
   });
 
-  // Sort descending so newest appears first
+
   const sortedMaterials = [...filteredMaterials].sort((a, b) => Number(b.material_id) - Number(a.material_id));
 
   const totalRows = sortedMaterials.length;
@@ -207,7 +205,7 @@ function MaterialPricing() {
   const isAll = rowsPerPage === "All";
   const paginatedMaterials = isAll ? sortedMaterials : sortedMaterials.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
-  // Reset current page if out of bounds
+  
   useEffect(() => {
     if (currentPage > totalPages) setCurrentPage(1);
   }, [rowsPerPage, totalRows, totalPages, currentPage]);
